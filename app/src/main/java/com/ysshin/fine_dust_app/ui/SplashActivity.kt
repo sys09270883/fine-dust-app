@@ -1,8 +1,9 @@
-package com.ysshin.fine_dust_app
+package com.ysshin.fine_dust_app.ui
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.ysshin.fine_dust_app.R
 import kotlinx.coroutines.*
 
 class SplashActivity : AppCompatActivity() {
@@ -15,7 +16,7 @@ class SplashActivity : AppCompatActivity() {
 
         activityScope.launch {
             delay(2000L)
-            val intent = Intent(this@SplashActivity, LoginActivity::class.java)
+            val intent = Intent(this@SplashActivity, AuthActivity::class.java)
             startActivity(intent)
             finish()
         }
