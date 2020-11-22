@@ -12,13 +12,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Finedustapp"
         android:usesCleartextTraffic="true">
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:screenOrientation="portrait"></activity>
+
         <activity
             android:name=".ui.AuthActivity"
-            android:theme="@style/Theme.LoginTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.LoginTheme"></activity>
 
-        </activity>
         <activity
             android:name=".ui.SplashActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
