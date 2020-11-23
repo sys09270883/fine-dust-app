@@ -28,7 +28,8 @@ class RegistrationFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_registration, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_registration, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         return binding.root
@@ -41,25 +42,23 @@ class RegistrationFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        Log.d("username", "${viewModel.username.value}")
-    }
-
     private fun register() {
-        val registrationInfo = viewModel.getRegistrationInfo()
-        val call = AuthService.create().register(registrationInfo)
         viewModel.setLoading(true)
+        val call = AuthService.create().register(viewModel.getRegistrationInfo())
 
         call.enqueue(object : Callback<AuthInfo> {
             override fun onResponse(call: Call<AuthInfo>, response: Response<AuthInfo>) {
-                val registrationResult = response.body()
-                registrationResult?.apply {
-                    PreferenceManager(requireContext()).saveToken(token)
-                    findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
+                val authInfo = response.body()
+                if (authInfo == null)
+                    viewModel.clearPassword()
+                else {
+                    authInfo.apply {
+                        PreferenceManager(requireContext()).saveToken(token)
+                        findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
+                    }
+                    viewModel.clearAll()
                 }
                 viewModel.setLoading(false)
-                viewModel.clearAll()
             }
 
             override fun onFailure(call: Call<AuthInfo>, t: Throwable) {
@@ -67,7 +66,6 @@ class RegistrationFragment : Fragment() {
                 viewModel.setLoading(false)
                 viewModel.clearPassword()
             }
-
         })
     }
 }
