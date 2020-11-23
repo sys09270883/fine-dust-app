@@ -11,7 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ysshin.fine_dust_app.R
 import com.ysshin.fine_dust_app.api.AuthService
-import com.ysshin.fine_dust_app.data.AuthInfo
+import com.ysshin.fine_dust_app.data.AuthData
 import com.ysshin.fine_dust_app.data.PreferenceManager
 import com.ysshin.fine_dust_app.databinding.FragmentRegistrationBinding
 import com.ysshin.fine_dust_app.viewmodel.RegistrationViewModel
@@ -46,8 +46,8 @@ class RegistrationFragment : Fragment() {
         viewModel.setLoading(true)
         val call = AuthService.create().register(viewModel.getRegistrationInfo())
 
-        call.enqueue(object : Callback<AuthInfo> {
-            override fun onResponse(call: Call<AuthInfo>, response: Response<AuthInfo>) {
+        call.enqueue(object : Callback<AuthData> {
+            override fun onResponse(call: Call<AuthData>, response: Response<AuthData>) {
                 val authInfo = response.body()
                 if (authInfo == null)
                     viewModel.clearPassword()
@@ -61,7 +61,7 @@ class RegistrationFragment : Fragment() {
                 viewModel.setLoading(false)
             }
 
-            override fun onFailure(call: Call<AuthInfo>, t: Throwable) {
+            override fun onFailure(call: Call<AuthData>, t: Throwable) {
                 Log.e("Registration", "${t.message}")
                 viewModel.setLoading(false)
                 viewModel.clearPassword()

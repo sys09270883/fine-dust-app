@@ -2,7 +2,7 @@ package com.ysshin.fine_dust_app.data
 
 import com.google.gson.annotations.SerializedName
 
-data class RegistrationInfo(
+data class RegistrationData(
     @SerializedName(value = "username") val username: String,
     @SerializedName(value = "email") val email: String,
     @SerializedName(value = "password1") val password1: String,

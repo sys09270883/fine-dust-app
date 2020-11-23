@@ -2,7 +2,7 @@ package com.ysshin.fine_dust_app.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ysshin.fine_dust_app.data.RegistrationInfo
+import com.ysshin.fine_dust_app.data.RegistrationData
 
 class RegistrationViewModel() : ViewModel() {
     val username: MutableLiveData<String> by lazy {
@@ -64,7 +64,7 @@ class RegistrationViewModel() : ViewModel() {
         clearPassword()
     }
 
-    fun getRegistrationInfo() = RegistrationInfo(
+    fun getRegistrationInfo() = RegistrationData(
         username.value ?: "",
         email.value ?: "",
         password1.value ?: "",
