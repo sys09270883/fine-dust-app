@@ -21,14 +21,15 @@ import retrofit2.Response
 
 class RegistrationFragment : Fragment() {
 
-    private lateinit var binding: FragmentRegistrationBinding
+    private var _binding: FragmentRegistrationBinding? = null
+    private val binding get() = _binding!!
     private val viewModel by activityViewModels<RegistrationViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding =
+        _binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_registration, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -67,5 +68,10 @@ class RegistrationFragment : Fragment() {
                 viewModel.clearPassword()
             }
         })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

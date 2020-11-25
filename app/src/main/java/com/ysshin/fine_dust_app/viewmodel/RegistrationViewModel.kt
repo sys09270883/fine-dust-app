@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ysshin.fine_dust_app.data.RegistrationData
 
-class RegistrationViewModel() : ViewModel() {
+class RegistrationViewModel : ViewModel() {
     val username: MutableLiveData<String> by lazy {
         MutableLiveData<String>().apply {
             postValue("")

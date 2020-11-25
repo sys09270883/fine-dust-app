@@ -1,6 +1,7 @@
 package com.ysshin.fine_dust_app.api
 
 import com.ysshin.fine_dust_app.data.AuthData
+import com.ysshin.fine_dust_app.data.LoginData
 import com.ysshin.fine_dust_app.data.RegistrationData
 import com.ysshin.fine_dust_app.data.UserData
 import okhttp3.OkHttpClient
@@ -14,7 +15,7 @@ import retrofit2.http.POST
 interface AuthService {
 
     @POST("auth/login/")
-    fun login(@Body userData: UserData): Call<AuthData>
+    fun login(@Body loginData: LoginData): Call<AuthData>
 
     @POST("auth/logout/")
     fun logout()
@@ -37,7 +38,7 @@ interface AuthService {
     fun refreshToken(@Body userData: UserData): Call<UserData>
 
     companion object {
-        private const val BASE_URL = "http://7ee48b470362.ngrok.io/"
+        private const val BASE_URL = "https://gvkuhjey1j.execute-api.ap-northeast-2.amazonaws.com/dev/"
 
         fun create(): AuthService {
             val interceptor = HttpLoggingInterceptor().apply { HttpLoggingInterceptor.Level.BASIC }
