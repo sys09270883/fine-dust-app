@@ -13,6 +13,7 @@ import com.ysshin.fine_dust_app.R
 import com.ysshin.fine_dust_app.api.AuthService
 import com.ysshin.fine_dust_app.data.AuthData
 import com.ysshin.fine_dust_app.data.PreferenceManager
+import com.ysshin.fine_dust_app.data.Token
 import com.ysshin.fine_dust_app.databinding.FragmentLoginBinding
 import com.ysshin.fine_dust_app.viewmodels.LoginViewModel
 import com.ysshin.fine_dust_app.viewmodels.LoginViewModelFactory
@@ -60,10 +61,10 @@ class LoginFragment : Fragment() {
         val token = PreferenceManager(requireContext()).getToken() ?: return
         viewModel.setLoading(true)
         val call = viewModel.verifyToken(token)
-        call.enqueue(object : Callback<AuthData> {
-            override fun onResponse(call: Call<AuthData>, response: Response<AuthData>) {
-                val authData = response.body() ?: return
-                if (token != authData.token)
+        call.enqueue(object : Callback<Token> {
+            override fun onResponse(call: Call<Token>, response: Response<Token>) {
+                val responseToken = response.body() ?: return
+                if (token != responseToken.token)
                     return
                 val intent = Intent(context, MainActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -71,7 +72,7 @@ class LoginFragment : Fragment() {
                 viewModel.setLoading(false)
             }
 
-            override fun onFailure(call: Call<AuthData>, t: Throwable) {
+            override fun onFailure(call: Call<Token>, t: Throwable) {
                 Log.e("Auth login", "${t.message}")
                 PreferenceManager(requireContext()).saveToken(null)
                 viewModel.setLoading(false)
@@ -90,7 +91,7 @@ class LoginFragment : Fragment() {
                 else {
                     authData.apply {
                         val context = requireContext()
-                        PreferenceManager(context).saveToken(token)
+                        PreferenceManager(context).saveToken(token.token)
                         val intent = Intent(context, MainActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                         startActivity(intent)

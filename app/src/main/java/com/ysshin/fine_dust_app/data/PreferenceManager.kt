@@ -13,7 +13,7 @@ class PreferenceManager(private val context: Context) {
         return context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
     }
 
-    fun saveToken(token: String?) {
+    fun saveToken(token: String) {
         val pref = getPreferences()
         val editor = pref.edit()
         editor.putString(TOKEN_KEY, token)

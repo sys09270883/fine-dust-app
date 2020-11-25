@@ -1,9 +1,6 @@
 package com.ysshin.fine_dust_app.api
 
-import com.ysshin.fine_dust_app.data.AuthData
-import com.ysshin.fine_dust_app.data.LoginData
-import com.ysshin.fine_dust_app.data.RegistrationData
-import com.ysshin.fine_dust_app.data.UserData
+import com.ysshin.fine_dust_app.data.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -32,7 +29,7 @@ interface AuthService {
     fun token(@Body userData: UserData): Call<UserData>
 
     @POST("token/verify/")
-    fun verifyToken(@Body token: AuthData): Call<AuthData>
+    fun verifyToken(@Body token: Token): Call<Token>
 
     @POST("token/refresh/")
     fun refreshToken(@Body userData: UserData): Call<UserData>

@@ -56,7 +56,7 @@ class RegistrationFragment : Fragment() {
                     viewModel.clearPassword()
                 else {
                     authData.apply {
-                        PreferenceManager(requireContext()).saveToken(token)
+                        PreferenceManager(requireContext()).saveToken(token.token)
                         findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
                     }
                     viewModel.clearAll()
