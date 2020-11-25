@@ -51,11 +51,11 @@ class RegistrationFragment : Fragment() {
         val call = viewModel.register()
         call.enqueue(object : Callback<AuthData> {
             override fun onResponse(call: Call<AuthData>, response: Response<AuthData>) {
-                val authInfo = response.body()
-                if (authInfo == null)
+                val authData = response.body()
+                if (authData == null)
                     viewModel.clearPassword()
                 else {
-                    authInfo.apply {
+                    authData.apply {
                         PreferenceManager(requireContext()).saveToken(token)
                         findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
                     }

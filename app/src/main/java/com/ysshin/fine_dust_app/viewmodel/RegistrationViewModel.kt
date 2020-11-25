@@ -71,7 +71,7 @@ class RegistrationViewModel(authService: AuthService) : ViewModel() {
         clearPassword()
     }
 
-    fun getRegistrationInfo() = RegistrationData(
+    private fun getRegistrationData() = RegistrationData(
         username.value ?: "",
         email.value ?: "",
         password1.value ?: "",
@@ -80,6 +80,6 @@ class RegistrationViewModel(authService: AuthService) : ViewModel() {
         lastName.value ?: ""
     )
 
-    fun register(): Call<AuthData> = repository.register(getRegistrationInfo())
+    fun register(): Call<AuthData> = repository.register(getRegistrationData())
 
 }
