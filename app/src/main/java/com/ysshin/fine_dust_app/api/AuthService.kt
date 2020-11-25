@@ -32,7 +32,7 @@ interface AuthService {
     fun token(@Body userData: UserData): Call<UserData>
 
     @POST("token/verify/")
-    fun verifyToken(@Body token: String): Call<String>
+    fun verifyToken(@Body token: AuthData): Call<AuthData>
 
     @POST("token/refresh/")
     fun refreshToken(@Body userData: UserData): Call<UserData>

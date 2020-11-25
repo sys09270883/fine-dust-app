@@ -40,7 +40,7 @@ class LoginFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        login()
+        autoLogin()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,7 +54,29 @@ class LoginFragment : Fragment() {
                 findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
             }
         }
+    }
 
+    private fun autoLogin() {
+        val token = PreferenceManager(requireContext()).getToken() ?: return
+        viewModel.setLoading(true)
+        val call = viewModel.verifyToken(token)
+        call.enqueue(object : Callback<AuthData> {
+            override fun onResponse(call: Call<AuthData>, response: Response<AuthData>) {
+                val authData = response.body() ?: return
+                if (token != authData.token)
+                    return
+                val intent = Intent(context, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(intent)
+                viewModel.setLoading(false)
+            }
+
+            override fun onFailure(call: Call<AuthData>, t: Throwable) {
+                Log.e("Auth login", "${t.message}")
+                PreferenceManager(requireContext()).saveToken(null)
+                viewModel.setLoading(false)
+            }
+        })
     }
 
     private fun login() {

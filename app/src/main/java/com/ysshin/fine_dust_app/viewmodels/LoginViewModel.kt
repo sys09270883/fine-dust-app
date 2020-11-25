@@ -6,6 +6,7 @@ import com.ysshin.fine_dust_app.api.AuthService
 import com.ysshin.fine_dust_app.data.AuthData
 import com.ysshin.fine_dust_app.data.LoginData
 import com.ysshin.fine_dust_app.data.LoginRepository
+import com.ysshin.fine_dust_app.data.UserData
 import retrofit2.Call
 
 class LoginViewModel(authService: AuthService) : ViewModel() {
@@ -40,4 +41,6 @@ class LoginViewModel(authService: AuthService) : ViewModel() {
     private fun getLoginData(): LoginData = LoginData(username.value ?: "", password.value ?: "")
 
     fun login(): Call<AuthData> = repository.login(getLoginData())
+
+    fun verifyToken(token: String): Call<AuthData> = repository.verifyToken(AuthData(token, UserData()))
 }
