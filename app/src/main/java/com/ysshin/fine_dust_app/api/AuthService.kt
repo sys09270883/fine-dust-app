@@ -1,8 +1,9 @@
 package com.ysshin.fine_dust_app.api
 
-import com.ysshin.fine_dust_app.data.AuthInfo
-import com.ysshin.fine_dust_app.data.RegistrationInfo
-import com.ysshin.fine_dust_app.data.UserInfo
+import com.ysshin.fine_dust_app.data.AuthData
+import com.ysshin.fine_dust_app.data.LoginData
+import com.ysshin.fine_dust_app.data.RegistrationData
+import com.ysshin.fine_dust_app.data.UserData
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -14,30 +15,30 @@ import retrofit2.http.POST
 interface AuthService {
 
     @POST("auth/login/")
-    fun login(@Body userInfo: UserInfo): Call<AuthInfo>
+    fun login(@Body loginData: LoginData): Call<AuthData>
 
     @POST("auth/logout/")
     fun logout()
 
     @POST("auth/registration/")
     fun register(
-        @Body registrationInfo: RegistrationInfo
-    ): Call<AuthInfo>
+        @Body registrationData: RegistrationData
+    ): Call<AuthData>
 
     @POST("auth/password/change/")
     fun changePassword(uid: Int, username: String, newPassword1: String, newPassword2: String)
 
     @POST("token/")
-    fun token(@Body userInfo: UserInfo): Call<UserInfo>
+    fun token(@Body userData: UserData): Call<UserData>
 
     @POST("token/verify/")
-    fun verifyToken(@Body token: String): Call<String>
+    fun verifyToken(@Body token: AuthData): Call<AuthData>
 
     @POST("token/refresh/")
-    fun refreshToken(@Body userInfo: UserInfo): Call<UserInfo>
+    fun refreshToken(@Body userData: UserData): Call<UserData>
 
     companion object {
-        private const val BASE_URL = "http://7ee48b470362.ngrok.io/"
+        private const val BASE_URL = "https://gvkuhjey1j.execute-api.ap-northeast-2.amazonaws.com/dev/"
 
         fun create(): AuthService {
             val interceptor = HttpLoggingInterceptor().apply { HttpLoggingInterceptor.Level.BASIC }
