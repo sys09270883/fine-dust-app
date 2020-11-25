@@ -1,10 +1,23 @@
 package com.ysshin.fine_dust_app.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.navigation.fragment.findNavController
+import com.ysshin.fine_dust_app.R
+import com.ysshin.fine_dust_app.api.AuthService
+import com.ysshin.fine_dust_app.data.AuthData
+import com.ysshin.fine_dust_app.data.PreferenceManager
 import com.ysshin.fine_dust_app.data.RegistrationData
+import com.ysshin.fine_dust_app.repository.RegistrationRepository
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class RegistrationViewModel : ViewModel() {
+class RegistrationViewModel(authService: AuthService) : ViewModel() {
+
+    val repository = RegistrationRepository(authService)
+
     val username: MutableLiveData<String> by lazy {
         MutableLiveData<String>().apply {
             postValue("")
@@ -72,5 +85,7 @@ class RegistrationViewModel : ViewModel() {
         firstName.value ?: "",
         lastName.value ?: ""
     )
+
+    fun register(): Call<AuthData> = repository.register(getRegistrationInfo())
 
 }

@@ -15,6 +15,7 @@ import com.ysshin.fine_dust_app.data.AuthData
 import com.ysshin.fine_dust_app.data.PreferenceManager
 import com.ysshin.fine_dust_app.databinding.FragmentRegistrationBinding
 import com.ysshin.fine_dust_app.viewmodel.RegistrationViewModel
+import com.ysshin.fine_dust_app.viewmodel.RegistrationViewModelFactory
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,7 +24,9 @@ class RegistrationFragment : Fragment() {
 
     private var _binding: FragmentRegistrationBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by activityViewModels<RegistrationViewModel>()
+    private val viewModel by activityViewModels<RegistrationViewModel> {
+        RegistrationViewModelFactory(AuthService.create())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,8 +48,7 @@ class RegistrationFragment : Fragment() {
 
     private fun register() {
         viewModel.setLoading(true)
-        val call = AuthService.create().register(viewModel.getRegistrationInfo())
-
+        val call = viewModel.register()
         call.enqueue(object : Callback<AuthData> {
             override fun onResponse(call: Call<AuthData>, response: Response<AuthData>) {
                 val authInfo = response.body()
