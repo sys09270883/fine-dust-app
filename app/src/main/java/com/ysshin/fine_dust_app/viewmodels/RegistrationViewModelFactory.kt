@@ -1,4 +1,4 @@
-package com.ysshin.fine_dust_app.viewmodel
+package com.ysshin.fine_dust_app.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

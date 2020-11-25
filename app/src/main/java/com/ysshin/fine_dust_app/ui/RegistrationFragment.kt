@@ -14,8 +14,8 @@ import com.ysshin.fine_dust_app.api.AuthService
 import com.ysshin.fine_dust_app.data.AuthData
 import com.ysshin.fine_dust_app.data.PreferenceManager
 import com.ysshin.fine_dust_app.databinding.FragmentRegistrationBinding
-import com.ysshin.fine_dust_app.viewmodel.RegistrationViewModel
-import com.ysshin.fine_dust_app.viewmodel.RegistrationViewModelFactory
+import com.ysshin.fine_dust_app.viewmodels.RegistrationViewModel
+import com.ysshin.fine_dust_app.viewmodels.RegistrationViewModelFactory
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

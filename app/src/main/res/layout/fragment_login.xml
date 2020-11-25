@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.ysshin.fine_dust_app.viewmodel.LoginViewModel" />
+            type="com.ysshin.fine_dust_app.viewmodels.LoginViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
