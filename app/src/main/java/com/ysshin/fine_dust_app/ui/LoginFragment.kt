@@ -7,16 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.ysshin.fine_dust_app.R
-import com.ysshin.fine_dust_app.api.AuthService
 import com.ysshin.fine_dust_app.data.AuthData
 import com.ysshin.fine_dust_app.data.PreferenceManager
 import com.ysshin.fine_dust_app.data.Token
 import com.ysshin.fine_dust_app.databinding.FragmentLoginBinding
 import com.ysshin.fine_dust_app.viewmodels.LoginViewModel
-import com.ysshin.fine_dust_app.viewmodels.LoginViewModelFactory
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,9 +24,8 @@ class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<LoginViewModel> {
-        LoginViewModelFactory(AuthService.create())
-    }
+    private val viewModel: LoginViewModel by viewModel()
+    private val preferenceManager: PreferenceManager by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,13 +56,15 @@ class LoginFragment : Fragment() {
     }
 
     private fun autoLogin() {
-        val token = PreferenceManager(requireContext()).getToken() ?: return
+        val token = preferenceManager.getToken() ?: return
+        Log.d("token", token)
         viewModel.setLoading(true)
         val call = viewModel.verifyToken(token)
         call.enqueue(object : Callback<Token> {
             override fun onResponse(call: Call<Token>, response: Response<Token>) {
-                val responseToken = response.body() ?: return
-                if (token != responseToken.token)
+                val tokenResponse = response.body() ?: return
+                Log.d("response", tokenResponse.token)
+                if (token != tokenResponse.token)
                     return
                 val intent = Intent(context, MainActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -74,7 +74,7 @@ class LoginFragment : Fragment() {
 
             override fun onFailure(call: Call<Token>, t: Throwable) {
                 Log.e("Auth login", "${t.message}")
-                PreferenceManager(requireContext()).saveToken(null)
+                preferenceManager.clearToken()
                 viewModel.setLoading(false)
             }
         })
@@ -90,9 +90,8 @@ class LoginFragment : Fragment() {
                     viewModel.clearPassword()
                 else {
                     authData.apply {
-                        val context = requireContext()
-                        PreferenceManager(context).saveToken(token.token)
-                        val intent = Intent(context, MainActivity::class.java)
+                        preferenceManager.saveToken(token)
+                        val intent = Intent(requireContext(), MainActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                         startActivity(intent)
                     }

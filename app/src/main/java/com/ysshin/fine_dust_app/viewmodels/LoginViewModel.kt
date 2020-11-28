@@ -2,15 +2,13 @@ package com.ysshin.fine_dust_app.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ysshin.fine_dust_app.api.AuthService
 import com.ysshin.fine_dust_app.data.AuthData
 import com.ysshin.fine_dust_app.data.LoginData
 import com.ysshin.fine_dust_app.data.LoginRepository
 import com.ysshin.fine_dust_app.data.Token
 import retrofit2.Call
 
-class LoginViewModel(authService: AuthService) : ViewModel() {
-    private val repository = LoginRepository(authService)
+class LoginViewModel(private val repository: LoginRepository) : ViewModel() {
 
     val username: MutableLiveData<String> by lazy {
         MutableLiveData<String>().apply {
@@ -42,5 +40,5 @@ class LoginViewModel(authService: AuthService) : ViewModel() {
 
     fun login(): Call<AuthData> = repository.login(getLoginData())
 
-    fun verifyToken(token: String): Call<Token> = repository.verifyToken(Token(token))
+    fun verifyToken(token: String): Call<Token> = repository.verifyToken(token)
 }

@@ -2,15 +2,12 @@ package com.ysshin.fine_dust_app.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ysshin.fine_dust_app.api.AuthService
 import com.ysshin.fine_dust_app.data.AuthData
 import com.ysshin.fine_dust_app.data.RegistrationData
 import com.ysshin.fine_dust_app.data.RegistrationRepository
 import retrofit2.Call
 
-class RegistrationViewModel(authService: AuthService) : ViewModel() {
-
-    val repository = RegistrationRepository(authService)
+class RegistrationViewModel(private val repository: RegistrationRepository) : ViewModel() {
 
     val username: MutableLiveData<String> by lazy {
         MutableLiveData<String>().apply {
