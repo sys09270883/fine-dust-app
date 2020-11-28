@@ -7,15 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ysshin.fine_dust_app.R
-import com.ysshin.fine_dust_app.api.AuthService
 import com.ysshin.fine_dust_app.data.AuthData
 import com.ysshin.fine_dust_app.data.PreferenceManager
 import com.ysshin.fine_dust_app.databinding.FragmentRegistrationBinding
 import com.ysshin.fine_dust_app.viewmodels.RegistrationViewModel
-import com.ysshin.fine_dust_app.viewmodels.RegistrationViewModelFactory
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,9 +23,8 @@ class RegistrationFragment : Fragment() {
 
     private var _binding: FragmentRegistrationBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by activityViewModels<RegistrationViewModel> {
-        RegistrationViewModelFactory(AuthService.create())
-    }
+    private val viewModel: RegistrationViewModel by viewModel()
+    private val preferenceManager: PreferenceManager by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +54,7 @@ class RegistrationFragment : Fragment() {
                     viewModel.clearPassword()
                 else {
                     authData.apply {
-                        PreferenceManager(requireContext()).saveToken(token)
+                        preferenceManager.saveToken(token)
                         findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
                     }
                     viewModel.clearAll()

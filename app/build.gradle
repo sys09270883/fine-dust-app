@@ -15,6 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
 
+        buildConfigField "String", "BASE_URL", "\"https://gvkuhjey1j.execute-api.ap-northeast-2.amazonaws.com/dev/\""
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -60,4 +61,8 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:4.9.0"
     implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-beta01'
+    implementation "org.koin:koin-android:2.2.0"
+    implementation "org.koin:koin-androidx-viewmodel:2.2.0"
+    implementation "org.koin:koin-core:2.2.0"
+    testImplementation "org.koin:koin-test:2.2.0"
 }
