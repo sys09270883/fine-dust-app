@@ -15,13 +15,15 @@
         android:usesCleartextTraffic="true">
 
         <activity
-            android:name=".ui.MainActivity"
-            android:screenOrientation="portrait"></activity>
+            android:name=".ui.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.HomeTheme"
+            ></activity>
 
         <activity
             android:name=".ui.AuthActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.LoginTheme"></activity>
+            android:theme="@style/Theme.HomeTheme"></activity>
 
         <activity
             android:name=".ui.SplashActivity"
