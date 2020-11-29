@@ -3,13 +3,12 @@ package com.ysshin.fine_dust_app.utils
 import com.ysshin.fine_dust_app.R
 
 object ImageUtils {
-    private val backgroundImageMapper = hashMapOf(
-        DustState.GOOD to R.drawable.bg_good,
-        DustState.MODERATE to R.drawable.bg_moderate,
-        DustState.UNHEALTHY to R.drawable.bg_unhealthy,
-        DustState.VERY_UNHEALTHY to R.drawable.bg_very_unhealthy
+    private val backgroundImageList = listOf(
+        R.drawable.bg_good,
+        R.drawable.bg_moderate,
+        R.drawable.bg_unhealthy,
+        R.drawable.bg_very_unhealthy
     )
 
-    fun convertStateToImage(dustState: DustState) = backgroundImageMapper[dustState]!!
-
+    fun convertStateToImage(dustState: Int) = backgroundImageList[dustState]
 }

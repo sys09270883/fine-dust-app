@@ -6,7 +6,7 @@ import com.ysshin.fine_dust_app.data.HomeRepository
 
 class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
 
-    val dustState: MutableLiveData<Int> by lazy {
+    private val dustState: MutableLiveData<Int> by lazy {
         MutableLiveData<Int>().apply {
             postValue(0)
         }

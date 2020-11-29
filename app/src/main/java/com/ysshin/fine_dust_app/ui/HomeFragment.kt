@@ -20,13 +20,6 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModel()
     private val preferenceManager: PreferenceManager by inject()
 
-    private val backgroundImageList = listOf(
-        R.drawable.bg_good,
-        R.drawable.bg_moderate,
-        R.drawable.bg_unhealthy,
-        R.drawable.bg_very_unhealthy
-    )
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
