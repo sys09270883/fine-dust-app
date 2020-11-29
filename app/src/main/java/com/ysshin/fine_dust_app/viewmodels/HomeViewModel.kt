@@ -9,7 +9,7 @@ import com.ysshin.fine_dust_app.utils.ImageUtils
 class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
     private val _dustState: MutableLiveData<Int> by lazy {
         MutableLiveData<Int>().apply {
-            postValue(3)
+            postValue(0)
         }
     }
 
