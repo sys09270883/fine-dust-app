@@ -66,7 +66,7 @@ class LoginFragment : Fragment() {
                 Log.d("response", tokenResponse.token)
                 if (token != tokenResponse.token)
                     return
-                val intent = Intent(context, MainActivity::class.java)
+                val intent = Intent(context, HomeActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(intent)
                 viewModel.setLoading(false)
@@ -91,7 +91,7 @@ class LoginFragment : Fragment() {
                 else {
                     authData.apply {
                         preferenceManager.saveToken(token)
-                        val intent = Intent(requireContext(), MainActivity::class.java)
+                        val intent = Intent(requireContext(), HomeActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                         startActivity(intent)
                     }

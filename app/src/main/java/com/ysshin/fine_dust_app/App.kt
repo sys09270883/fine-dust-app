@@ -1,6 +1,7 @@
 package com.ysshin.fine_dust_app
 
 import android.app.Application
+import com.ysshin.fine_dust_app.di.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidFileProperties
 import org.koin.android.ext.koin.androidLogger
@@ -15,12 +16,14 @@ class App : Application() {
             androidLogger(Level.DEBUG)
             androidContext(this@App)
             androidFileProperties()
-            modules(listOf(
-                fragmentModule,
-                viewModelModule,
-                repositoryModule,
-                networkModule,
-                prefModule)
+            modules(
+                listOf(
+                    fragmentModule,
+                    viewModelModule,
+                    repositoryModule,
+                    apiModule,
+                    prefModule
+                )
             )
         }
     }
