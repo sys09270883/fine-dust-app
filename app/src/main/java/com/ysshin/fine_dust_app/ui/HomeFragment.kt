@@ -6,13 +6,35 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ysshin.fine_dust_app.R
+import com.ysshin.fine_dust_app.data.PreferenceManager
+import com.ysshin.fine_dust_app.databinding.FragmentHomeBinding
+import com.ysshin.fine_dust_app.viewmodels.HomeViewModel
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class HomeFragment : Fragment() {
+
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel: HomeViewModel by viewModel()
+    private val preferenceManager: PreferenceManager by inject()
+
+    private val backgroundImageList = listOf(
+        R.drawable.bg_good,
+        R.drawable.bg_moderate,
+        R.drawable.bg_unhealthy,
+        R.drawable.bg_very_unhealthy
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
+
 }
