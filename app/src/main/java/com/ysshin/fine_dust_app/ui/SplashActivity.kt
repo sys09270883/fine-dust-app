@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +15,6 @@ import kotlinx.coroutines.*
 
 class SplashActivity : AppCompatActivity() {
 
-    private val activityScope = CoroutineScope(Dispatchers.Main)
     private val permissionRequestCode = 100
     private val requiredPermissions = arrayOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
@@ -42,14 +40,13 @@ class SplashActivity : AppCompatActivity() {
         if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED &&
             hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED
         ) {
-            activityScope.launch {
+            CoroutineScope(Dispatchers.Main).launch {
                 delay(1000L)
                 val intent = Intent(this@SplashActivity, AuthActivity::class.java)
                 startActivity(intent)
                 finish()
             }
-        }
-        else {
+        } else {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, requiredPermissions[0])) {
                 Toast.makeText(this, "이 앱을 실행하려면 위치 접근 권한이 필요합니다.", Toast.LENGTH_SHORT).show()
             }
@@ -72,7 +69,6 @@ class SplashActivity : AppCompatActivity() {
             }
 
             if (checkResult) {
-                Log.d("test", "here?")
                 val intent = Intent(this@SplashActivity, AuthActivity::class.java)
                 startActivity(intent)
                 finish()
@@ -119,8 +115,4 @@ class SplashActivity : AppCompatActivity() {
         builder.create().show()
     }
 
-    override fun onPause() {
-        super.onPause()
-        activityScope.cancel()
-    }
 }
