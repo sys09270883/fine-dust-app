@@ -17,6 +17,17 @@
         app:bind_background_image="@{viewModel.dustState}"
         tools:context=".ui.HomeFragment">
 
+        <TextView
+            android:id="@+id/addressTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.addressLine}"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@id/fineDustImageView"
+            app:layout_constraintStart_toStartOf="@id/fineDustImageView"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:id="@+id/fineDustImageView"
             android:layout_width="0dp"

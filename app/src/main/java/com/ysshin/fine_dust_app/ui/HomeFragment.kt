@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ysshin.fine_dust_app.data.PreferenceManager
 import com.ysshin.fine_dust_app.databinding.FragmentHomeBinding
+import com.ysshin.fine_dust_app.utils.AddressConverter
+import com.ysshin.fine_dust_app.utils.LocationUtil
 import com.ysshin.fine_dust_app.viewmodels.HomeViewModel
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -29,4 +31,19 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        val locationData = LocationUtil.getInstance(requireContext()).getCurrentLocationData()
+        val doName = AddressConverter.convert("${locationData?.first()}")
+        val siName = "${locationData?.last()}"
+        preferenceManager.saveAddressLine("$doName $siName")
+        preferenceManager.saveDoName(doName)
+        preferenceManager.saveSiName(siName)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val address = preferenceManager.getAddressLine()
+        viewModel.setAddressLine(address)
+    }
 }
