@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">fine-dust-app</string>
-    <!-- Strings related to login -->
+    <string name="app_name">미세먼지 알리미</string>
     <string name="prompt_username">아이디</string>
     <string name="prompt_password">비밀번호</string>
     <string name="prompt_confirm_password">비밀번호 확인</string>
@@ -13,7 +12,9 @@
     <string name="login_failed">"Login failed"</string>
     <string name="log_in">로그인</string>
     <string name="registration">회원가입</string>
+    <string name="fine_dust_good">좋은 공기</string>
+    <string name="fine_dust_moderate">보통 공기</string>
+    <string name="fine_dust_unhealthy">나쁜 공기</string>
+    <string name="fine_dust_very_unhealthy">매우 나쁜 공기</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
