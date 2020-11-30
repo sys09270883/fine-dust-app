@@ -14,8 +14,33 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:bind_background_image="@{viewModel.dustState}"
         tools:context=".ui.HomeFragment">
 
+        <ImageView
+            android:id="@+id/fineDustImageView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.3"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintWidth_percent="0.5"
+            app:srcCompat="@drawable/main_icon_good"
+            android:contentDescription="@string/fine_dust_good" />
+
+        <TextView
+            android:id="@+id/fineDustTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="40sp"
+            app:bind_text="@{viewModel.dustState}"
+            app:layout_constraintStart_toStartOf="@id/fineDustImageView"
+            app:layout_constraintTop_toBottomOf="@+id/fineDustImageView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
