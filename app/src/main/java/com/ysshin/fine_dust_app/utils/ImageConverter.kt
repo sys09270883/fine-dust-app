@@ -18,5 +18,5 @@ object ImageConverter {
 
     fun convertToBackgroundImage(dustState: Int) = backgroundImageList[dustState]
 
-    fun convertToMainIcon(dustState: Int) = backgroundImageList[dustState]
+    fun convertToMainIcon(dustState: Int) = mainIconList[dustState]
 }
