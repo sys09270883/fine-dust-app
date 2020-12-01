@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.ysshin.fine_dust_app.R
-import com.ysshin.fine_dust_app.data.AuthData
+import com.ysshin.fine_dust_app.data.Auth
 import com.ysshin.fine_dust_app.data.PreferenceManager
 import com.ysshin.fine_dust_app.data.Token
 import com.ysshin.fine_dust_app.databinding.FragmentLoginBinding
@@ -48,7 +48,6 @@ class LoginFragment : Fragment() {
             loginButton.setOnClickListener {
                 login()
             }
-
             registrationButton.setOnClickListener {
                 findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
             }
@@ -57,13 +56,11 @@ class LoginFragment : Fragment() {
 
     private fun autoLogin() {
         val token = preferenceManager.getToken() ?: return
-        Log.d("token", token)
         viewModel.setLoading(true)
         val call = viewModel.verifyToken(token)
         call.enqueue(object : Callback<Token> {
             override fun onResponse(call: Call<Token>, response: Response<Token>) {
                 val tokenResponse = response.body() ?: return
-                Log.d("response", tokenResponse.token)
                 if (token != tokenResponse.token)
                     return
                 val intent = Intent(context, HomeActivity::class.java)
@@ -83,8 +80,8 @@ class LoginFragment : Fragment() {
     private fun login() {
         viewModel.setLoading(true)
         val call = viewModel.login()
-        call.enqueue(object : Callback<AuthData> {
-            override fun onResponse(call: Call<AuthData>, response: Response<AuthData>) {
+        call.enqueue(object : Callback<Auth> {
+            override fun onResponse(call: Call<Auth>, response: Response<Auth>) {
                 val authData = response.body()
                 if (authData == null)
                     viewModel.clearPassword()
@@ -99,7 +96,7 @@ class LoginFragment : Fragment() {
                 viewModel.setLoading(false)
             }
 
-            override fun onFailure(call: Call<AuthData>, t: Throwable) {
+            override fun onFailure(call: Call<Auth>, t: Throwable) {
                 Log.e("Login", "${t.message}")
                 viewModel.setLoading(false)
                 viewModel.clearPassword()

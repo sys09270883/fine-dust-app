@@ -1,10 +1,13 @@
 package com.ysshin.fine_dust_app.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.ysshin.fine_dust_app.api.WeatherService
+import com.ysshin.fine_dust_app.data.DustResponse
 import com.ysshin.fine_dust_app.data.PreferenceManager
 import com.ysshin.fine_dust_app.databinding.FragmentHomeBinding
 import com.ysshin.fine_dust_app.utils.AddressConverter
@@ -12,6 +15,9 @@ import com.ysshin.fine_dust_app.utils.LocationUtil
 import com.ysshin.fine_dust_app.viewmodels.HomeViewModel
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class HomeFragment : Fragment() {
@@ -45,5 +51,48 @@ class HomeFragment : Fragment() {
         super.onResume()
         val address = preferenceManager.getAddressLine()
         viewModel.setAddressLine(address)
+
+        // 만약 새로 값을 받아와야 한다면 서버에 데이터 요청
+        val call = WeatherService.create().getDusts(
+            "hDhMxuP0BLDCGdqq%2FOHZ2QlZyeAdi2BwncUMuhxhLQknnN5XijOL98vyNUTyjMGKRWGniNM23n7HV%2FeNEleDIA%3D%3D",
+            100,
+            1,
+            preferenceManager.getDoName(),
+            "HOUR",
+            "json"
+        )
+
+        call.enqueue(object : Callback<DustResponse> {
+            override fun onResponse(call: Call<DustResponse>, response: Response<DustResponse>) {
+                val dustResponse = response.body()
+                val dusts = dustResponse?.dusts
+                val totalCount = dustResponse?.totalCount
+
+                dusts?.let {
+                    for (dust in dusts) {
+                        if (preferenceManager.getSiName() == dust.cityName) {
+                            preferenceManager.apply {
+                                saveDataTime(dust.dataTime)
+                                saveCityName(dust.cityName)
+                                saveSo2Value(dust.so2Value)
+                                saveCoValue(dust.coValue)
+                                saveO3Value(dust.o3Value)
+                                saveNo2Value(dust.no2Value)
+                                savePm10Value(dust.pm10Value)
+                                savePm25Value(dust.pm25Value)
+                            }
+                            break
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<DustResponse>, t: Throwable) {
+                Log.e("dusts", "${t.message}")
+            }
+        })
+
+        // 이미 있는 값이라면 패스
+
     }
 }

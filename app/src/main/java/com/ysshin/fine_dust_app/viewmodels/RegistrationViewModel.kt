@@ -2,8 +2,8 @@ package com.ysshin.fine_dust_app.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ysshin.fine_dust_app.data.AuthData
-import com.ysshin.fine_dust_app.data.RegistrationData
+import com.ysshin.fine_dust_app.data.Auth
+import com.ysshin.fine_dust_app.data.Registration
 import com.ysshin.fine_dust_app.data.RegistrationRepository
 import retrofit2.Call
 
@@ -68,7 +68,7 @@ class RegistrationViewModel(private val repository: RegistrationRepository) : Vi
         clearPassword()
     }
 
-    private fun getRegistrationData() = RegistrationData(
+    private fun getRegistrationData() = Registration(
         username.value ?: "",
         email.value ?: "",
         password1.value ?: "",
@@ -77,6 +77,6 @@ class RegistrationViewModel(private val repository: RegistrationRepository) : Vi
         lastName.value ?: ""
     )
 
-    fun register(): Call<AuthData> = repository.register(getRegistrationData())
+    fun register(): Call<Auth> = repository.register(getRegistrationData())
 
 }

@@ -7,25 +7,25 @@ import retrofit2.http.POST
 
 interface AuthService {
     @POST("auth/login/")
-    fun login(@Body loginData: LoginData): Call<AuthData>
+    fun login(@Body login: Login): Call<Auth>
 
     @POST("auth/logout/")
     fun logout()
 
     @POST("auth/registration/")
     fun register(
-        @Body registrationData: RegistrationData
-    ): Call<AuthData>
+        @Body registration: Registration
+    ): Call<Auth>
 
     @POST("auth/password/change/")
     fun changePassword(uid: Int, username: String, newPassword1: String, newPassword2: String)
 
     @POST("token/")
-    fun token(@Body userData: UserData): Call<UserData>
+    fun token(@Body user: User): Call<User>
 
     @POST("token/verify/")
     fun verifyToken(@Body token: Token): Call<Token>
 
     @POST("token/refresh/")
-    fun refreshToken(@Body userData: UserData): Call<UserData>
+    fun refreshToken(@Body user: User): Call<User>
 }
