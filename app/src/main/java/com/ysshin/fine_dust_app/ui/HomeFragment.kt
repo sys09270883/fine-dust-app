@@ -56,11 +56,14 @@ class HomeFragment : Fragment() {
 
         val call = viewModel.getFineDustData(preferenceManager.getDoName())
 
+
         call.enqueue(object : Callback<DustResponse> {
             override fun onResponse(call: Call<DustResponse>, response: Response<DustResponse>) {
                 val dustResponse = response.body()
 
                 val dusts = dustResponse?.dusts
+                Log.d("dusts", dusts.toString())
+                Log.d("dusts", preferenceManager.getSiName())
 
                 dusts?.let {
                     for (dust in dusts) {

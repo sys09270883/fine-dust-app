@@ -9,10 +9,11 @@ class HomeRepository(private val weatherService: WeatherService) {
         serviceKey: String = BuildConfig.SERVICE_KEY,
         numOfRows: Int = 100,
         pageNo: Int = 1,
-        sidoName: String = "서울",
+        doName: String = "경기",
+        siName: String = "안양시",
         searchCondition: String = "HOUR",
         returnType: String = "json"
     ): Call<DustResponse> = weatherService.getDusts(
-        serviceKey, numOfRows, pageNo, sidoName, searchCondition, returnType
+        serviceKey, numOfRows, pageNo, doName, siName, searchCondition, returnType
     )
 }

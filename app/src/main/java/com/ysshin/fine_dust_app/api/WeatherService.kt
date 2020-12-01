@@ -11,7 +11,8 @@ interface WeatherService {
         @Query("serviceKey") serviceKey: String,
         @Query("numOfRows") numOfRows: Int,
         @Query("pageNo") pageNo: Int,
-        @Query("sidoName") sidoName: String,
+        @Query("doName") doName: String,
+        @Query("siName") siName: String,
         @Query("searchCondition") searchCondition: String,
         @Query("_returnType") returnType: String
     ): Call<DustResponse>

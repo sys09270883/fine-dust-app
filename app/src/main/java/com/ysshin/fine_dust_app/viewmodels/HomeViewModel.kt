@@ -4,8 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ysshin.fine_dust_app.data.HomeRepository
-import com.ysshin.fine_dust_app.data.PreferenceManager
-import org.koin.java.KoinJavaComponent.inject
 import java.time.LocalDateTime
 
 class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
@@ -80,7 +78,7 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
         _ultraFineDustValue.value = value
     }
 
-    fun getFineDustData(doName: String) = repository.getDusts(sidoName = doName)
+    fun getFineDustData(doName: String) = repository.getDusts(doName = doName)
 
     fun needUpdate(): Boolean {
         val dataTime = _dataTime.value ?: return true
