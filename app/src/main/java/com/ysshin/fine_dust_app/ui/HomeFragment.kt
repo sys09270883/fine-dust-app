@@ -11,6 +11,7 @@ import com.ysshin.fine_dust_app.data.DustResponse
 import com.ysshin.fine_dust_app.data.PreferenceManager
 import com.ysshin.fine_dust_app.databinding.FragmentHomeBinding
 import com.ysshin.fine_dust_app.utils.AddressConverter
+import com.ysshin.fine_dust_app.utils.FineDustConverter
 import com.ysshin.fine_dust_app.utils.LocationUtil
 import com.ysshin.fine_dust_app.viewmodels.HomeViewModel
 import org.koin.android.ext.android.inject
@@ -52,7 +53,8 @@ class HomeFragment : Fragment() {
         val address = preferenceManager.getAddressLine()
         viewModel.setAddressLine(address)
 
-        // 만약 새로 값을 받아와야 한다면 서버에 데이터 요청
+        // TODO: 만약 새로 값을 받아와야 한다면 서버에 데이터 요청
+        // TODO: 데이터를 viewModel에 저장 후 databinding으로 레이아웃 업데이트
         val call = WeatherService.create().getDusts(
             "hDhMxuP0BLDCGdqq%2FOHZ2QlZyeAdi2BwncUMuhxhLQknnN5XijOL98vyNUTyjMGKRWGniNM23n7HV%2FeNEleDIA%3D%3D",
             100,
@@ -81,6 +83,17 @@ class HomeFragment : Fragment() {
                                 savePm10Value(dust.pm10Value)
                                 savePm25Value(dust.pm25Value)
                             }
+                            val pm10Value = dust.pm10Value.toInt()
+                            val pm25Value = dust.pm25Value.toInt()
+                            val fineDustState =
+                                FineDustConverter.convertToFineDustState(pm10Value)
+                            val ultraFineDustState =
+                                FineDustConverter.convertToFineDustState(pm25Value)
+                            viewModel.setFineDustValue(dust.pm10Value.toInt())
+                            viewModel.setUltraFineDustValue(dust.pm25Value.toInt())
+                            viewModel.setFineDustState(fineDustState)
+                            viewModel.setUltraFineDustState(ultraFineDustState)
+                            viewModel.setDataTime(dust.dataTime)
                             break
                         }
                     }

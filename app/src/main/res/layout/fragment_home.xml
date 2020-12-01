@@ -14,8 +14,18 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:bind_background_image="@{viewModel.dustState}"
+        app:bind_background_image="@{viewModel.fineDustState}"
         tools:context=".ui.HomeFragment">
+
+        <TextView
+            android:id="@+id/dataTimeTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.dataTime}"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@id/addressTextView"
+            app:layout_constraintStart_toStartOf="@id/mainDustImageView" />
 
         <TextView
             android:id="@+id/addressTextView"
@@ -24,17 +34,17 @@
             android:text="@{viewModel.addressLine}"
             android:textColor="@color/white"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@id/fineDustImageView"
-            app:layout_constraintStart_toStartOf="@id/fineDustImageView"
+            app:layout_constraintBottom_toTopOf="@id/mainDustImageView"
+            app:layout_constraintStart_toStartOf="@id/mainDustImageView"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/fineDustImageView"
+            android:id="@+id/mainDustImageView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="30dp"
             android:contentDescription="@string/fine_dust_good"
-            app:bind_image="@{viewModel.dustState}"
+            app:bind_image="@{viewModel.fineDustState}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHeight_percent="0.25"
             app:layout_constraintStart_toStartOf="parent"
@@ -49,9 +59,67 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="40sp"
-            app:bind_text="@{viewModel.dustState}"
-            app:layout_constraintStart_toStartOf="@id/fineDustImageView"
-            app:layout_constraintTop_toBottomOf="@+id/fineDustImageView" />
+            app:bind_text="@{viewModel.fineDustState}"
+            app:layout_constraintStart_toStartOf="@id/mainDustImageView"
+            app:layout_constraintTop_toBottomOf="@+id/mainDustImageView" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/dustCardView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.9">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/bottomDustImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:bind_bottom_fine_dust_image="@{viewModel.fineDustState}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/bottomDustTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/bottomDustTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:bind_bottom_fine_dust_text="@{viewModel.fineDustValue}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/bottomUltraFineDustImageView"
+                    app:layout_constraintStart_toEndOf="@id/bottomDustImageView"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/bottomUltraFineDustImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:bind_bottom_ultra_fine_dust_image="@{viewModel.ultraFineDustState}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/bottomUltraDustTextView"
+                    app:layout_constraintStart_toEndOf="@id/bottomDustTextView"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/bottomUltraDustTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:bind_bottom_ultra_fine_dust_text="@{viewModel.ultraFineDustValue}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/bottomUltraFineDustImageView"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
