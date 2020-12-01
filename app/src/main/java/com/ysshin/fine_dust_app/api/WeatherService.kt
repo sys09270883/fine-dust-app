@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface WeatherService {
-    @GET("weather?")
+    @GET("weather/dust?")
     fun getDusts(
         @Query("serviceKey") serviceKey: String,
         @Query("numOfRows") numOfRows: Int,
