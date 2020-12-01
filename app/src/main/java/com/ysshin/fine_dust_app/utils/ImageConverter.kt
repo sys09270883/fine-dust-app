@@ -15,8 +15,18 @@ object ImageConverter {
         R.drawable.main_icon_unhealthy,
         R.drawable.main_icon_very_unhealthy,
     )
+    private val iconList = listOf(
+        R.drawable.icon_good,
+        R.drawable.icon_moderate,
+        R.drawable.icon_unhealthy,
+        R.drawable.icon_very_unhealthy,
+    )
 
     fun convertToBackgroundImage(dustState: Int) = backgroundImageList[dustState]
 
-    fun convertToMainIcon(dustState: Int) = backgroundImageList[dustState]
+    fun convertToMainIcon(dustState: Int) = mainIconList[dustState]
+
+    fun convertFineDustToIcon(fineDustState: Int): Int = iconList[fineDustState]
+
+    fun convertUltraFineDustToIcon(ultraFineDustValue: Int) = iconList[ultraFineDustValue]
 }
