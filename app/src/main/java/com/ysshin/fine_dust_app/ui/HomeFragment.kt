@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.ysshin.fine_dust_app.api.WeatherService
 import com.ysshin.fine_dust_app.data.DustResponse
 import com.ysshin.fine_dust_app.data.PreferenceManager
 import com.ysshin.fine_dust_app.databinding.FragmentHomeBinding
@@ -43,32 +42,25 @@ class HomeFragment : Fragment() {
         val locationData = LocationUtil.getInstance(requireContext()).getCurrentLocationData()
         val doName = AddressConverter.convert("${locationData?.first()}")
         val siName = "${locationData?.last()}"
-        preferenceManager.saveAddressLine("$doName $siName")
+        val address = "$doName $siName"
+        preferenceManager.saveAddressLine(address)
         preferenceManager.saveDoName(doName)
         preferenceManager.saveSiName(siName)
+        viewModel.setAddressLine(address)
     }
 
     override fun onResume() {
         super.onResume()
-        val address = preferenceManager.getAddressLine()
-        viewModel.setAddressLine(address)
+        if (!viewModel.needUpdate())
+            return
 
-        // TODO: 만약 새로 값을 받아와야 한다면 서버에 데이터 요청
-        // TODO: 데이터를 viewModel에 저장 후 databinding으로 레이아웃 업데이트
-        val call = WeatherService.create().getDusts(
-            "hDhMxuP0BLDCGdqq%2FOHZ2QlZyeAdi2BwncUMuhxhLQknnN5XijOL98vyNUTyjMGKRWGniNM23n7HV%2FeNEleDIA%3D%3D",
-            100,
-            1,
-            preferenceManager.getDoName(),
-            "HOUR",
-            "json"
-        )
+        val call = viewModel.getFineDustData(preferenceManager.getDoName())
 
         call.enqueue(object : Callback<DustResponse> {
             override fun onResponse(call: Call<DustResponse>, response: Response<DustResponse>) {
                 val dustResponse = response.body()
+
                 val dusts = dustResponse?.dusts
-                val totalCount = dustResponse?.totalCount
 
                 dusts?.let {
                     for (dust in dusts) {
@@ -104,8 +96,6 @@ class HomeFragment : Fragment() {
                 Log.e("dusts", "${t.message}")
             }
         })
-
-        // 이미 있는 값이라면 패스
 
     }
 }
