@@ -78,7 +78,8 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
         _ultraFineDustValue.value = value
     }
 
-    fun getFineDustData(doName: String) = repository.getDusts(doName = doName)
+    fun getFineDustData(doName: String, siName: String) =
+        repository.getDusts(doName = doName, siName = siName)
 
     fun needUpdate(): Boolean {
         val dataTime = _dataTime.value ?: return true

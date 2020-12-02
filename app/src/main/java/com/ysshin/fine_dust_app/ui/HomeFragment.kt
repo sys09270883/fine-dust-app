@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ysshin.fine_dust_app.data.DustResponse
-import com.ysshin.fine_dust_app.utils.PreferenceManager
 import com.ysshin.fine_dust_app.databinding.FragmentHomeBinding
 import com.ysshin.fine_dust_app.utils.AddressConverter
 import com.ysshin.fine_dust_app.utils.FineDustConverter
 import com.ysshin.fine_dust_app.utils.LocationUtil
+import com.ysshin.fine_dust_app.utils.PreferenceManager
 import com.ysshin.fine_dust_app.viewmodels.HomeViewModel
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -54,7 +54,8 @@ class HomeFragment : Fragment() {
         if (!viewModel.needUpdate())
             return
 
-        val call = viewModel.getFineDustData(preferenceManager.getDoName())
+        val call =
+            viewModel.getFineDustData(preferenceManager.getDoName(), preferenceManager.getSiName())
 
 
         call.enqueue(object : Callback<DustResponse> {

@@ -16,7 +16,6 @@ android {
         versionName "1.0"
 
         buildConfigField "String", "BASE_URL", "\"https://gvkuhjey1j.execute-api.ap-northeast-2.amazonaws.com/dev/\""
-        buildConfigField "String", "SERVICE_KEY", "\"hDhMxuP0BLDCGdqq%2FOHZ2QlZyeAdi2BwncUMuhxhLQknnN5XijOL98vyNUTyjMGKRWGniNM23n7HV%2FeNEleDIA%3D%3D\""
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
