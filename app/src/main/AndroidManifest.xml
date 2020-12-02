@@ -19,15 +19,18 @@
         <activity
             android:name=".ui.HomeActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleInstance"
             android:theme="@style/Theme.HomeTheme" />
 
         <activity
             android:name=".ui.AuthActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleInstance"
             android:theme="@style/Theme.HomeTheme" />
 
         <activity
             android:name=".ui.SplashActivity"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.SplashTheme">
             <intent-filter>

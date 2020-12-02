@@ -1,6 +1,5 @@
 package com.ysshin.fine_dust_app.adapters
 
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -13,7 +12,8 @@ import com.ysshin.fine_dust_app.utils.TextConverter
 
 @BindingAdapter("bind_background_image")
 fun ConstraintLayout.bindBackgroundImageResource(dustState: Int) {
-    background = ContextCompat.getDrawable(context, ImageConverter.convertToBackgroundImage(dustState))
+    background =
+        ContextCompat.getDrawable(context, ImageConverter.convertToBackgroundImage(dustState))
 }
 
 @BindingAdapter("bind_text")
@@ -48,19 +48,17 @@ fun ImageView.bindImage(dustState: Int) {
 
 @BindingAdapter("bind_bottom_fine_dust_image")
 fun ImageView.bindFineDustImage(fineDustValue: Int) {
-    Log.d("finedustvalue", "$fineDustValue")
     setImageResource(ImageConverter.convertFineDustToIcon(fineDustValue))
 }
 
 @BindingAdapter("bind_bottom_ultra_fine_dust_image")
 fun ImageView.bindUltraFineDustImage(ultraFineDustValue: Int) {
-    Log.d("ULTRAfinedustvalue", "$ultraFineDustValue")
     setImageResource(ImageConverter.convertUltraFineDustToIcon(ultraFineDustValue))
 }
 
 @BindingAdapter("bind_visibility")
 fun ProgressBar.bindVisibility(loading: Boolean) {
-    visibility = when(loading) {
+    visibility = when (loading) {
         true -> View.VISIBLE
         else -> View.GONE
     }

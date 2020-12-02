@@ -40,6 +40,7 @@ class HomeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        viewModel.setLoading(true)
         val locationData = LocationUtil.getInstance(requireContext()).getCurrentLocationData()
         val doName = AddressConverter.convert("${locationData?.first()}")
         val siName = "${locationData?.last()}"
@@ -48,6 +49,7 @@ class HomeFragment : Fragment() {
         preferenceManager.saveDoName(doName)
         preferenceManager.saveSiName(siName)
         viewModel.setAddressLine(address)
+        viewModel.setLoading(false)
     }
 
     override fun onResume() {
@@ -65,27 +67,23 @@ class HomeFragment : Fragment() {
         val location = LocationUtil.getInstance(requireContext()).getLocation() ?: return
         val call = viewModel.getWeatherData(location.latitude.toInt(), location.longitude.toInt())
 
-        call.enqueue(object : Callback<WeatherResponse>{
+        call.enqueue(object : Callback<WeatherResponse> {
             override fun onResponse(
                 call: Call<WeatherResponse>,
                 response: Response<WeatherResponse>
             ) {
-                val weatherResponse = response.body()
+                val weatherResponse = response.body() ?: return
 
-                val skyList = weatherResponse?.skyList
-                val maxTemperature = weatherResponse?.maxTemperature
-                val minTemperature = weatherResponse?.minTemperature
-                Log.d("weather", "$skyList")
-                Log.d("weather", "$maxTemperature")
-                Log.d("weather", "$minTemperature")
-
-
+                val skyList = weatherResponse.skyList
+                val maxTemperature = weatherResponse.maxTemperature
+                val minTemperature = weatherResponse.minTemperature
+                viewModel.setMaxTemperature(maxTemperature)
+                viewModel.setMinTemperature(minTemperature)
             }
 
             override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
                 Log.e("weather", "${t.message}")
             }
-
         })
     }
 
@@ -95,38 +93,33 @@ class HomeFragment : Fragment() {
 
         call.enqueue(object : Callback<DustResponse> {
             override fun onResponse(call: Call<DustResponse>, response: Response<DustResponse>) {
-                val dustResponse = response.body()
+                val dustResponse = response.body() ?: return
 
-                val dusts = dustResponse?.dusts
-                Log.d("dusts", dusts.toString())
-                Log.d("dusts", preferenceManager.getSiName())
-
-                dusts?.let {
-                    for (dust in dusts) {
-                        if (preferenceManager.getSiName() == dust.cityName) {
-                            preferenceManager.apply {
-                                saveDataTime(dust.dataTime)
-                                saveCityName(dust.cityName)
-                                saveSo2Value(dust.so2Value)
-                                saveCoValue(dust.coValue)
-                                saveO3Value(dust.o3Value)
-                                saveNo2Value(dust.no2Value)
-                                savePm10Value(dust.pm10Value)
-                                savePm25Value(dust.pm25Value)
-                            }
-                            val pm10Value = dust.pm10Value.toInt()
-                            val pm25Value = dust.pm25Value.toInt()
-                            val fineDustState =
-                                FineDustConverter.convertToFineDustState(pm10Value)
-                            val ultraFineDustState =
-                                FineDustConverter.convertToFineDustState(pm25Value)
-                            viewModel.setFineDustValue(dust.pm10Value.toInt())
-                            viewModel.setUltraFineDustValue(dust.pm25Value.toInt())
-                            viewModel.setFineDustState(fineDustState)
-                            viewModel.setUltraFineDustState(ultraFineDustState)
-                            viewModel.setDataTime(dust.dataTime)
-                            break
+                val dusts = dustResponse.dusts
+                for (dust in dusts) {
+                    if (preferenceManager.getSiName() == dust.cityName) {
+                        preferenceManager.apply {
+                            saveDataTime(dust.dataTime)
+                            saveCityName(dust.cityName)
+                            saveSo2Value(dust.so2Value)
+                            saveCoValue(dust.coValue)
+                            saveO3Value(dust.o3Value)
+                            saveNo2Value(dust.no2Value)
+                            savePm10Value(dust.pm10Value)
+                            savePm25Value(dust.pm25Value)
                         }
+                        val pm10Value = dust.pm10Value.toInt()
+                        val pm25Value = dust.pm25Value.toInt()
+                        val fineDustState =
+                            FineDustConverter.convertToFineDustState(pm10Value)
+                        val ultraFineDustState =
+                            FineDustConverter.convertToFineDustState(pm25Value)
+                        viewModel.setFineDustValue(dust.pm10Value.toInt())
+                        viewModel.setUltraFineDustValue(dust.pm25Value.toInt())
+                        viewModel.setFineDustState(fineDustState)
+                        viewModel.setUltraFineDustState(ultraFineDustState)
+                        viewModel.setDataTime(dust.dataTime)
+                        break
                     }
                 }
             }

@@ -10,9 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.ysshin.fine_dust_app.R
 import com.ysshin.fine_dust_app.data.Auth
-import com.ysshin.fine_dust_app.utils.PreferenceManager
 import com.ysshin.fine_dust_app.data.Token
 import com.ysshin.fine_dust_app.databinding.FragmentLoginBinding
+import com.ysshin.fine_dust_app.utils.PreferenceManager
 import com.ysshin.fine_dust_app.viewmodels.LoginViewModel
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -37,21 +37,20 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        autoLogin()
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        binding.loginButton.setOnClickListener {
+            login()
+        }
+        binding.registrationButton.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
+        }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.apply {
-            loginButton.setOnClickListener {
-                login()
-            }
-            registrationButton.setOnClickListener {
-                findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
-            }
-        }
+    override fun onResume() {
+        super.onResume()
+        if (isAdded)
+            autoLogin()
     }
 
     private fun autoLogin() {
@@ -63,10 +62,12 @@ class LoginFragment : Fragment() {
                 val tokenResponse = response.body() ?: return
                 if (token != tokenResponse.token)
                     return
-                val intent = Intent(context, HomeActivity::class.java)
+                viewModel.setLoading(false)
+                val activity = requireActivity()
+                val intent = Intent(activity, HomeActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(intent)
-                viewModel.setLoading(false)
+                activity.finish()
             }
 
             override fun onFailure(call: Call<Token>, t: Throwable) {
@@ -83,23 +84,27 @@ class LoginFragment : Fragment() {
         call.enqueue(object : Callback<Auth> {
             override fun onResponse(call: Call<Auth>, response: Response<Auth>) {
                 val authData = response.body()
-                if (authData == null)
+                if (authData == null) {
                     viewModel.clearPassword()
+                    viewModel.setLoading(false)
+                }
                 else {
                     authData.apply {
                         preferenceManager.saveToken(token)
-                        val intent = Intent(requireContext(), HomeActivity::class.java)
+                        viewModel.setLoading(false)
+                        val activity = requireActivity()
+                        val intent = Intent(activity, HomeActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                         startActivity(intent)
+                        activity.finish()
                     }
                 }
-                viewModel.setLoading(false)
             }
 
             override fun onFailure(call: Call<Auth>, t: Throwable) {
                 Log.e("Login", "${t.message}")
-                viewModel.setLoading(false)
                 viewModel.clearPassword()
+                viewModel.setLoading(false)
             }
         })
     }

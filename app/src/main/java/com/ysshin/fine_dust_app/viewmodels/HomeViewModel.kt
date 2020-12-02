@@ -66,10 +66,18 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
 
     private val _loading: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().apply {
-            postValue(false)
+            value = false
         }
     }
     val loading get() = _loading
+
+    fun setMaxTemperature(temperature: Double) {
+        _maxTemperature.value = temperature
+    }
+
+    fun setMinTemperature(temperature: Double) {
+        _minTemperature.value = temperature
+    }
 
     fun setLoading(isLoading: Boolean) {
         loading.value = isLoading

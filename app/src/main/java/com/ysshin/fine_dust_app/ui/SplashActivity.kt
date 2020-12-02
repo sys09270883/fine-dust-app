@@ -43,7 +43,7 @@ class SplashActivity : AppCompatActivity() {
             hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED
         ) {
             CoroutineScope(Dispatchers.Main).launch {
-                delay(1000L)
+                delay(500L)
                 val intent = Intent(this@SplashActivity, AuthActivity::class.java)
                 startActivity(intent)
                 finish()
