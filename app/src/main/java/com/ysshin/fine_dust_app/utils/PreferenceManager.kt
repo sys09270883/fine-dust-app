@@ -1,4 +1,4 @@
-package com.ysshin.fine_dust_app.data
+package com.ysshin.fine_dust_app.utils
 
 import android.content.Context
 import android.content.SharedPreferences

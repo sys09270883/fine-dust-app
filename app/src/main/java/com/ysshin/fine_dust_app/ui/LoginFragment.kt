@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.ysshin.fine_dust_app.R
 import com.ysshin.fine_dust_app.data.Auth
-import com.ysshin.fine_dust_app.data.PreferenceManager
+import com.ysshin.fine_dust_app.utils.PreferenceManager
 import com.ysshin.fine_dust_app.data.Token
 import com.ysshin.fine_dust_app.databinding.FragmentLoginBinding
 import com.ysshin.fine_dust_app.viewmodels.LoginViewModel

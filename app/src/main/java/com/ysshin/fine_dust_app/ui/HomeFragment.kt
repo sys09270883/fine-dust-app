@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ysshin.fine_dust_app.data.DustResponse
-import com.ysshin.fine_dust_app.data.PreferenceManager
+import com.ysshin.fine_dust_app.utils.PreferenceManager
 import com.ysshin.fine_dust_app.databinding.FragmentHomeBinding
 import com.ysshin.fine_dust_app.utils.AddressConverter
 import com.ysshin.fine_dust_app.utils.FineDustConverter
