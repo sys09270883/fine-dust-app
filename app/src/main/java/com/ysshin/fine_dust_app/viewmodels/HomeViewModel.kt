@@ -81,6 +81,8 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
     fun getFineDustData(doName: String, siName: String) =
         repository.getDusts(doName = doName, siName = siName)
 
+    fun getWeatherData(lat: Int, lng: Int) = repository.getWeatherInformation(lat = lat, lng = lng)
+
     fun needUpdate(): Boolean {
         val dataTime = _dataTime.value ?: return true
         if (dataTime.isEmpty())

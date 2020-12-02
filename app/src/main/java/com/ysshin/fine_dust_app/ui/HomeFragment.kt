@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ysshin.fine_dust_app.data.DustResponse
+import com.ysshin.fine_dust_app.data.WeatherResponse
 import com.ysshin.fine_dust_app.databinding.FragmentHomeBinding
 import com.ysshin.fine_dust_app.utils.AddressConverter
 import com.ysshin.fine_dust_app.utils.FineDustConverter
@@ -54,9 +55,41 @@ class HomeFragment : Fragment() {
         if (!viewModel.needUpdate())
             return
 
+        fetchDustInformation()
+        fetchWeatherInformation()
+    }
+
+    private fun fetchWeatherInformation() {
+        val location = LocationUtil.getInstance(requireContext()).getLocation() ?: return
+        val call = viewModel.getWeatherData(location.latitude.toInt(), location.longitude.toInt())
+
+        call.enqueue(object : Callback<WeatherResponse>{
+            override fun onResponse(
+                call: Call<WeatherResponse>,
+                response: Response<WeatherResponse>
+            ) {
+                val weatherResponse = response.body()
+
+                val skyList = weatherResponse?.skyList
+                val maxTemperature = weatherResponse?.maxTemperature
+                val minTemperature = weatherResponse?.minTemperature
+                Log.d("weather", "$skyList")
+                Log.d("weather", "$maxTemperature")
+                Log.d("weather", "$minTemperature")
+
+
+            }
+
+            override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
+                Log.e("weather", "${t.message}")
+            }
+
+        })
+    }
+
+    private fun fetchDustInformation() {
         val call =
             viewModel.getFineDustData(preferenceManager.getDoName(), preferenceManager.getSiName())
-
 
         call.enqueue(object : Callback<DustResponse> {
             override fun onResponse(call: Call<DustResponse>, response: Response<DustResponse>) {
@@ -100,6 +133,5 @@ class HomeFragment : Fragment() {
                 Log.e("dusts", "${t.message}")
             }
         })
-
     }
 }

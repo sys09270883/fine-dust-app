@@ -10,4 +10,9 @@ class HomeRepository(private val weatherService: WeatherService) {
     ): Call<DustResponse> = weatherService.getDusts(
         doName, siName
     )
+
+    fun getWeatherInformation(
+        lat: Int = 0,
+        lng: Int = 0,
+    ): Call<WeatherResponse> = weatherService.getWeather(lat, lng)
 }
