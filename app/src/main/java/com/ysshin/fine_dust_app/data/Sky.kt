@@ -1,3 +1,8 @@
 package com.ysshin.fine_dust_app.data
 
-data class Sky(val state: String, val time: Int)
+import com.google.gson.annotations.SerializedName
+
+data class Sky(
+    @SerializedName(value = "time") val time: Int,
+    @SerializedName(value = "value") val value: String
+)
