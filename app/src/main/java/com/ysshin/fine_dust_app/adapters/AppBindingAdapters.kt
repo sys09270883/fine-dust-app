@@ -1,7 +1,9 @@
 package com.ysshin.fine_dust_app.adapters
 
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -54,4 +56,13 @@ fun ImageView.bindFineDustImage(fineDustValue: Int) {
 fun ImageView.bindUltraFineDustImage(ultraFineDustValue: Int) {
     Log.d("ULTRAfinedustvalue", "$ultraFineDustValue")
     setImageResource(ImageConverter.convertUltraFineDustToIcon(ultraFineDustValue))
+}
+
+@BindingAdapter("bind_visibility")
+fun ProgressBar.bindVisibility(loading: Boolean) {
+    visibility = when(loading) {
+        true -> View.VISIBLE
+        else -> View.GONE
+    }
+
 }

@@ -64,6 +64,17 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
     }
     val minTemperature get() = _minTemperature
 
+    private val _loading: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>().apply {
+            postValue(false)
+        }
+    }
+    val loading get() = _loading
+
+    fun setLoading(isLoading: Boolean) {
+        loading.value = isLoading
+    }
+
     fun setAddressLine(doName: String, siName: String) {
         _addressLine.value = "$doName $siName"
     }

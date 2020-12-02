@@ -55,8 +55,10 @@ class HomeFragment : Fragment() {
         if (!viewModel.needUpdate())
             return
 
+        viewModel.setLoading(true)
         fetchDustInformation()
         fetchWeatherInformation()
+        viewModel.setLoading(false)
     }
 
     private fun fetchWeatherInformation() {
