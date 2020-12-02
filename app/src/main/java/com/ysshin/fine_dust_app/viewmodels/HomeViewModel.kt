@@ -50,6 +50,20 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
     }
     val dataTime get() = _dataTime
 
+    private val _maxTemperature: MutableLiveData<Double> by lazy {
+        MutableLiveData<Double>().apply {
+            value = 0.0
+        }
+    }
+    val maxTemperature get() = _maxTemperature
+
+    private val _minTemperature: MutableLiveData<Double> by lazy {
+        MutableLiveData<Double>().apply {
+            value = 0.0
+        }
+    }
+    val minTemperature get() = _minTemperature
+
     fun setAddressLine(doName: String, siName: String) {
         _addressLine.value = "$doName $siName"
     }

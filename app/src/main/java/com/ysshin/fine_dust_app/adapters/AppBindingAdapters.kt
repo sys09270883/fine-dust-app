@@ -29,6 +29,16 @@ fun TextView.bindBottomUltraFineDustText(ultraFineDustValue: Int) {
     text = StringBuilder("초미세먼지\n${ultraFineDustValue}ug/m").toString()
 }
 
+@BindingAdapter("bind_cold_text")
+fun TextView.bindColdText(minTemperature: Double) {
+    text = StringBuilder("최저\n${TextConverter.convertIntIfWhole(minTemperature)}도").toString()
+}
+
+@BindingAdapter("bind_hot_text")
+fun TextView.bindHotText(maxTemperature: Double) {
+    text = StringBuilder("최고\n${TextConverter.convertIntIfWhole(maxTemperature)}도").toString()
+}
+
 @BindingAdapter("bind_image")
 fun ImageView.bindImage(dustState: Int) {
     setImageResource(ImageConverter.convertToMainIcon(dustState))

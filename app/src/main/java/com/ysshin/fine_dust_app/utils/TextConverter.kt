@@ -11,4 +11,10 @@ object TextConverter {
     )
 
     fun convertToText(dustState: Int) = dustStateTextList[dustState]
+
+    fun convertIntIfWhole(num: Double): String {
+        if (num - num.toInt() == 0.0)
+            return num.toInt().toString()
+        return num.toString()
+    }
 }
