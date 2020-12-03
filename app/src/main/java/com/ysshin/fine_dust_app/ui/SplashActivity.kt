@@ -43,7 +43,6 @@ class SplashActivity : AppCompatActivity() {
             hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED
         ) {
             CoroutineScope(Dispatchers.Main).launch {
-                delay(500L)
                 val intent = Intent(this@SplashActivity, AuthActivity::class.java)
                 startActivity(intent)
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out)

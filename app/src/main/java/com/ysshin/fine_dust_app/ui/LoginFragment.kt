@@ -49,10 +49,8 @@ class LoginFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (!isAdded)
-            return
-
-        autoLogin()
+        if (isAdded)
+            autoLogin()
     }
 
     private fun autoLogin() {
