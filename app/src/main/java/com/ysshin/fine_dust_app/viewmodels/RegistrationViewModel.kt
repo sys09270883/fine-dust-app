@@ -8,7 +8,6 @@ import com.ysshin.fine_dust_app.data.RegistrationRepository
 import retrofit2.Call
 
 class RegistrationViewModel(private val repository: RegistrationRepository) : ViewModel() {
-
     val username: MutableLiveData<String> by lazy {
         MutableLiveData<String>().apply {
             postValue("")
@@ -47,7 +46,7 @@ class RegistrationViewModel(private val repository: RegistrationRepository) : Vi
 
     val loading: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().apply {
-            postValue(false)
+            value = false
         }
     }
 

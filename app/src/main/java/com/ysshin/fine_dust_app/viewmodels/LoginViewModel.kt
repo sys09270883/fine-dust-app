@@ -9,7 +9,6 @@ import com.ysshin.fine_dust_app.data.Token
 import retrofit2.Call
 
 class LoginViewModel(private val repository: LoginRepository) : ViewModel() {
-
     val username: MutableLiveData<String> by lazy {
         MutableLiveData<String>().apply {
             postValue("")
@@ -24,7 +23,7 @@ class LoginViewModel(private val repository: LoginRepository) : ViewModel() {
 
     val loading: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().apply {
-            postValue(false)
+            value = false
         }
     }
 

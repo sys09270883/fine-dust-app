@@ -1,4 +1,4 @@
-package com.ysshin.fine_dust_app.data
+package com.ysshin.fine_dust_app.utils
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -9,7 +9,9 @@ class PreferenceManager(private val context: Context) {
         private const val TOKEN_KEY = "token_key"
         private const val CLEARED_TOKEN = "none"
         private const val ADDRESS_LINE = "address_line"
-        private const val DEFAULT = "none"
+        private const val DEFAULT = ""
+        private const val DEFAULT_INT = 0
+        private const val DEFAULT_FLOAT = 0.0f
         private const val DO_NAME = "do_name"
         private const val SI_NAME = "si_name"
         private const val DATA_TIME = "data_time"
@@ -20,6 +22,8 @@ class PreferenceManager(private val context: Context) {
         private const val NO2_VALUE = "no2_value"
         private const val PM10_VALUE = "pm10_value"
         private const val PM25_VALUE = "pm25_value"
+        private const val MAX_TEMPERATURE = "max_temperature"
+        private const val MIN_TEMPERATURE = "min_temperature"
     }
 
     private fun getPreferences(): SharedPreferences {
@@ -153,29 +157,52 @@ class PreferenceManager(private val context: Context) {
         return pref.getString(NO2_VALUE, DEFAULT)!!
     }
 
-    fun savePm10Value(pm10Value: String) {
+    fun savePm10Value(pm10Value: Int) {
         val pref = getPreferences()
         val editor = pref.edit()
-        editor.putString(PM10_VALUE, pm10Value)
+        editor.putInt(PM10_VALUE, pm10Value)
         editor.apply()
     }
 
-    fun getPm10Value(): String {
+    fun getPm10Value(): Int {
         val pref = getPreferences()
-        return pref.getString(PM10_VALUE, DEFAULT)!!
+        return pref.getInt(PM10_VALUE, DEFAULT_INT)
     }
 
-    fun savePm25Value(pm25Value: String) {
+    fun savePm25Value(pm25Value: Int) {
         val pref = getPreferences()
         val editor = pref.edit()
-        editor.putString(PM25_VALUE, pm25Value)
+        editor.putInt(PM25_VALUE, pm25Value)
         editor.apply()
     }
 
-    fun getPm25Value(): String {
+    fun getPm25Value(): Int {
         val pref = getPreferences()
-        return pref.getString(PM25_VALUE, DEFAULT)!!
+        return pref.getInt(PM25_VALUE, DEFAULT_INT)
     }
 
+    fun saveMaxTemperature(maxTemperature: Double) {
+        val pref = getPreferences()
+        val editor = pref.edit()
+        editor.putFloat(MAX_TEMPERATURE, maxTemperature.toFloat())
+        editor.apply()
+    }
+
+    fun getMaxTemperature(): Double {
+        val pref = getPreferences()
+        return pref.getFloat(MAX_TEMPERATURE, DEFAULT_FLOAT).toDouble()
+    }
+
+    fun saveMinTemperature(minTemperature: Double) {
+        val pref = getPreferences()
+        val editor = pref.edit()
+        editor.putFloat(MIN_TEMPERATURE, minTemperature.toFloat())
+        editor.apply()
+    }
+
+    fun getMinTemperature(): Double {
+        val pref = getPreferences()
+        return pref.getFloat(MIN_TEMPERATURE, DEFAULT_FLOAT).toDouble()
+    }
 
 }
