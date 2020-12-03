@@ -69,7 +69,6 @@ class HomeFragment : Fragment() {
         Log.d("yoonseop", "loading: ${viewModel.loading.value}")
         fetchDustInformation()
         fetchWeatherInformation()
-        viewModel.setLoading(false)
         Log.d("yoonseop", "loading: ${viewModel.loading.value}")
     }
 
@@ -92,10 +91,12 @@ class HomeFragment : Fragment() {
                 preferenceManager.saveMinTemperature(minTemperature)
                 viewModel.setMaxTemperature(maxTemperature)
                 viewModel.setMinTemperature(minTemperature)
+                viewModel.setLoading(false)
             }
 
             override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
                 Log.e("weather", "${t.message}")
+                viewModel.setLoading(false)
             }
         })
     }
@@ -122,10 +123,12 @@ class HomeFragment : Fragment() {
                         break
                     }
                 }
+                viewModel.setLoading(false)
             }
 
             override fun onFailure(call: Call<DustResponse>, t: Throwable) {
                 Log.e("dusts", "${t.message}")
+                viewModel.setLoading(false)
             }
         })
     }
