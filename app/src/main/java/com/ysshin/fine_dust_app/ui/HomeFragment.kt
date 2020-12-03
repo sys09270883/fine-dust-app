@@ -85,6 +85,7 @@ class HomeFragment : Fragment() {
                 val weatherResponse = response.body() ?: return
 
                 val skyList = weatherResponse.skyList
+                Log.d("yoonseop", "skyList: $skyList")
                 val maxTemperature = weatherResponse.maxTemperature
                 val minTemperature = weatherResponse.minTemperature
                 preferenceManager.saveMaxTemperature(maxTemperature)

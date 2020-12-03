@@ -45,12 +45,7 @@ class LoginFragment : Fragment() {
         binding.registrationButton.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (isAdded)
-            autoLogin()
+        autoLogin()
     }
 
     private fun autoLogin() {
