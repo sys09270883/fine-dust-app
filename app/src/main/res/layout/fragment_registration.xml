@@ -20,118 +20,175 @@
         android:paddingBottom="@dimen/fragment_vertical_margin"
         tools:context=".ui.RegistrationFragment">
 
-        <EditText
-            android:id="@+id/username"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/usernameLayout"
+            style="@style/TextInputLayoutTheme"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="96dp"
+            android:layout_marginTop="80dp"
             android:layout_marginEnd="24dp"
-            android:autofillHints="@string/prompt_username"
-            android:hint="@string/prompt_username"
-            android:inputType="textNoSuggestions"
-            android:selectAllOnFocus="true"
-            android:text="@={viewModel.username}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/password1"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/username"
+                style="@style/TextInputEditTextTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:autofillHints="@string/prompt_username"
+                android:hint="@string/prompt_username"
+                android:inputType="textNoSuggestions"
+                android:selectAllOnFocus="true"
+                android:text="@={viewModel.username}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/password1Layout"
+            style="@style/TextInputLayoutTheme"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="24dp"
-            android:autofillHints="@string/prompt_password"
-            android:hint="@string/prompt_password"
-            android:imeActionLabel="@string/action_sign_in_short"
-            android:imeOptions="actionDone"
-            android:inputType="textPassword"
-            android:selectAllOnFocus="true"
-            android:text="@={viewModel.password1}"
+            android:layout_marginBottom="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/username" />
+            app:layout_constraintTop_toBottomOf="@id/usernameLayout">
 
-        <EditText
-            android:id="@+id/password2"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password1"
+                style="@style/TextInputEditTextTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="@string/prompt_password"
+                android:hint="@string/prompt_password"
+                android:imeActionLabel="@string/action_sign_in_short"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:selectAllOnFocus="true"
+                android:text="@={viewModel.password1}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/password2Layout"
+            style="@style/TextInputLayoutTheme"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="24dp"
-            android:autofillHints="@string/prompt_confirm_password"
-            android:hint="@string/prompt_confirm_password"
-            android:imeActionLabel="@string/action_sign_in_short"
-            android:imeOptions="actionDone"
-            android:inputType="textPassword"
-            android:selectAllOnFocus="true"
-            android:text="@={viewModel.password2}"
+            android:layout_marginBottom="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password1" />
+            app:layout_constraintTop_toBottomOf="@id/password1Layout">
 
-        <EditText
-            android:id="@+id/email"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password2"
+                style="@style/TextInputEditTextTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="@string/prompt_confirm_password"
+                android:hint="@string/prompt_confirm_password"
+                android:inputType="textPassword"
+                android:selectAllOnFocus="true"
+                android:text="@={viewModel.password2}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/emailLayout"
+            style="@style/TextInputLayoutTheme"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="24dp"
-            android:autofillHints="@string/prompt_email"
-            android:hint="@string/prompt_email"
-            android:inputType="textEmailAddress"
-            android:selectAllOnFocus="true"
-            android:text="@={viewModel.email}"
+            android:layout_marginBottom="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password2" />
+            app:layout_constraintTop_toBottomOf="@id/password2Layout">
 
-        <EditText
-            android:id="@+id/lastName"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/email"
+                style="@style/TextInputEditTextTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="@string/prompt_email"
+                android:hint="@string/prompt_email"
+                android:inputType="textEmailAddress"
+                android:selectAllOnFocus="true"
+                android:text="@={viewModel.email}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/lastNameLayout"
+            style="@style/TextInputLayoutTheme"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="12dp"
-            android:autofillHints="@string/prompt_last_name"
-            android:hint="@string/prompt_last_name"
-            android:inputType="textEmailAddress"
-            android:selectAllOnFocus="true"
-            android:text="@={viewModel.lastName}"
-            app:layout_constraintEnd_toStartOf="@id/firstName"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintEnd_toStartOf="@id/firstNameLayout"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/email" />
+            app:layout_constraintTop_toBottomOf="@+id/emailLayout">
 
-        <EditText
-            android:id="@+id/firstName"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/lastName"
+                style="@style/TextInputEditTextTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="@string/prompt_last_name"
+                android:hint="@string/prompt_last_name"
+                android:inputType="textEmailAddress"
+                android:selectAllOnFocus="true"
+                android:text="@={viewModel.lastName}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/firstNameLayout"
+            style="@style/TextInputLayoutTheme"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="24dp"
-            android:autofillHints="@string/prompt_first_name"
-            android:hint="@string/prompt_first_name"
-            android:inputType="textEmailAddress"
-            android:selectAllOnFocus="true"
-            android:text="@={viewModel.firstName}"
+            android:layout_marginBottom="4dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/lastName"
-            app:layout_constraintTop_toBottomOf="@+id/email" />
+            app:layout_constraintStart_toEndOf="@id/lastNameLayout"
+            app:layout_constraintTop_toBottomOf="@+id/emailLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/firstName"
+                style="@style/TextInputEditTextTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="@string/prompt_first_name"
+                android:hint="@string/prompt_first_name"
+                android:inputType="textEmailAddress"
+                android:selectAllOnFocus="true"
+                android:text="@={viewModel.firstName}" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/submitButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
             android:layout_marginEnd="24dp"
             android:backgroundTint="@color/secondaryLightColor"
             android:text="@string/registration"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lastName" />
+            app:layout_constraintTop_toBottomOf="@+id/lastNameLayout" />
 
         <ProgressBar
             android:id="@+id/loading"
