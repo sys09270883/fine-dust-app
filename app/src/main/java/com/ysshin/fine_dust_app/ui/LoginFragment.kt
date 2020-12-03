@@ -49,8 +49,10 @@ class LoginFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (isAdded)
-            autoLogin()
+        if (!isAdded)
+            return
+
+        autoLogin()
     }
 
     private fun autoLogin() {
@@ -59,14 +61,15 @@ class LoginFragment : Fragment() {
         val call = viewModel.verifyToken(token)
         call.enqueue(object : Callback<Token> {
             override fun onResponse(call: Call<Token>, response: Response<Token>) {
+                viewModel.setLoading(false)
                 val tokenResponse = response.body() ?: return
                 if (token != tokenResponse.token)
                     return
-                viewModel.setLoading(false)
                 val activity = requireActivity()
                 val intent = Intent(activity, HomeActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(intent)
+                activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
                 activity.finish()
             }
 
@@ -83,12 +86,11 @@ class LoginFragment : Fragment() {
         val call = viewModel.login()
         call.enqueue(object : Callback<Auth> {
             override fun onResponse(call: Call<Auth>, response: Response<Auth>) {
+                viewModel.setLoading(false)
                 val authData = response.body()
                 if (authData == null) {
                     viewModel.clearPassword()
-                    viewModel.setLoading(false)
-                }
-                else {
+                } else {
                     authData.apply {
                         preferenceManager.saveToken(token)
                         viewModel.setLoading(false)
@@ -96,6 +98,7 @@ class LoginFragment : Fragment() {
                         val intent = Intent(activity, HomeActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                         startActivity(intent)
+                        activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
                         activity.finish()
                     }
                 }
@@ -113,4 +116,5 @@ class LoginFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }
