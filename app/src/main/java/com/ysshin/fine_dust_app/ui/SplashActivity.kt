@@ -49,9 +49,6 @@ class SplashActivity : AppCompatActivity() {
                 finish()
             }
         } else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, requiredPermissions[0])) {
-                Toast.makeText(this, "이 앱을 실행하려면 위치 접근 권한이 필요합니다.", Toast.LENGTH_SHORT).show()
-            }
             ActivityCompat.requestPermissions(this, requiredPermissions, permissionRequestCode)
         }
     }
