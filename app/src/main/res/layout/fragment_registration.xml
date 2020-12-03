@@ -22,19 +22,20 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/usernameLayout"
-            style="@style/TextInputLayoutTheme"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="104dp"
             android:layout_marginEnd="24dp"
+            android:theme="@style/TextInputLayoutTheme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/username"
-                style="@style/TextInputEditTextTheme"
+                style="@style/TextInputEditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -49,20 +50,21 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/password1Layout"
-            style="@style/TextInputLayoutTheme"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="4dp"
+            android:theme="@style/TextInputLayoutTheme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/usernameLayout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password1"
-                style="@style/TextInputEditTextTheme"
+                style="@style/TextInputEditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints="@string/prompt_password"
@@ -77,20 +79,21 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/password2Layout"
-            style="@style/TextInputLayoutTheme"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="4dp"
+            android:theme="@style/TextInputLayoutTheme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/password1Layout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password2"
-                style="@style/TextInputEditTextTheme"
+                style="@style/TextInputEditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints="@string/prompt_confirm_password"
@@ -102,20 +105,21 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailLayout"
-            style="@style/TextInputLayoutTheme"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="4dp"
+            android:theme="@style/TextInputLayoutTheme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/password2Layout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email"
-                style="@style/TextInputEditTextTheme"
+                style="@style/TextInputEditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints="@string/prompt_email"
@@ -125,48 +129,50 @@
                 android:text="@={viewModel.email}" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/lastNameLayout"
-            style="@style/TextInputLayoutTheme"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="4dp"
+            android:theme="@style/TextInputLayoutTheme"
             app:layout_constraintEnd_toStartOf="@id/firstNameLayout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/emailLayout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/lastName"
-                style="@style/TextInputEditTextTheme"
+                style="@style/TextInputEditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints="@string/prompt_last_name"
                 android:hint="@string/prompt_last_name"
                 android:inputType="textEmailAddress"
                 android:selectAllOnFocus="true"
-                android:text="@={viewModel.lastName}" />
+                android:text="@={viewModel.lastName}"
+                android:theme="@style/TextInputLayoutTheme" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/firstNameLayout"
-            style="@style/TextInputLayoutTheme"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="4dp"
+            android:theme="@style/TextInputLayoutTheme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/lastNameLayout"
             app:layout_constraintTop_toBottomOf="@+id/emailLayout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/firstName"
-                style="@style/TextInputEditTextTheme"
+                style="@style/TextInputEditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints="@string/prompt_first_name"
@@ -182,8 +188,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
             android:layout_marginEnd="24dp"
+            android:layout_marginBottom="4dp"
             android:backgroundTint="@color/secondaryLightColor"
             android:text="@string/registration"
             app:layout_constraintEnd_toEndOf="parent"
