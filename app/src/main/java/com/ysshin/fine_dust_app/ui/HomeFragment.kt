@@ -69,7 +69,6 @@ class HomeFragment : Fragment() {
         Log.d("yoonseop", "loading: ${viewModel.loading.value}")
         fetchDustInformation()
         fetchWeatherInformation()
-        Log.d("yoonseop", "loading: ${viewModel.loading.value}")
     }
 
     private fun fetchWeatherInformation() {

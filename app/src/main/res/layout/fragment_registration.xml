@@ -26,7 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="104dp"
+            android:layout_marginTop="100dp"
             android:layout_marginEnd="24dp"
             android:theme="@style/TextInputLayoutTheme"
             app:layout_constraintEnd_toEndOf="parent"
@@ -60,7 +60,8 @@
             android:theme="@style/TextInputLayoutTheme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/usernameLayout">
+            app:layout_constraintTop_toBottomOf="@id/usernameLayout"
+            app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password1"
@@ -89,7 +90,8 @@
             android:theme="@style/TextInputLayoutTheme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/password1Layout">
+            app:layout_constraintTop_toBottomOf="@id/password1Layout"
+            app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password2"
