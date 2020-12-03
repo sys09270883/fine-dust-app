@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ysshin.fine_dust_app.data.HomeRepository
+import com.ysshin.fine_dust_app.utils.FineDustConverter
 import java.time.LocalDateTime
 
 class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
@@ -64,12 +65,11 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
     }
     val minTemperature get() = _minTemperature
 
-    private val _loading: MutableLiveData<Boolean> by lazy {
+    val loading: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().apply {
             value = false
         }
     }
-    val loading get() = _loading
 
     fun setMaxTemperature(temperature: Double) {
         _maxTemperature.value = temperature
@@ -83,19 +83,15 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
         loading.value = isLoading
     }
 
-    fun setAddressLine(doName: String, siName: String) {
-        _addressLine.value = "$doName $siName"
-    }
-
     fun setAddressLine(address: String) {
         _addressLine.value = address
     }
 
-    fun setFineDustState(state: Int) {
+    private fun setFineDustState(state: Int) {
         _fineDustState.value = state
     }
 
-    fun setUltraFineDustState(state: Int) {
+    private fun setUltraFineDustState(state: Int) {
         _ultraFineDustState.value = state
     }
 
@@ -103,12 +99,23 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
         _dataTime.value = dataTime
     }
 
-    fun setFineDustValue(value: Int) {
+    private fun setFineDustValue(value: Int) {
         _fineDustValue.value = value
     }
 
-    fun setUltraFineDustValue(value: Int) {
+    private fun setUltraFineDustValue(value: Int) {
         _ultraFineDustValue.value = value
+    }
+
+    fun setAllFineDustInfo(pm10Value: Int, pm25Value: Int) {
+        val fineDustState =
+            FineDustConverter.convertToFineDustState(pm10Value)
+        val ultraFineDustState =
+            FineDustConverter.convertToFineDustState(pm25Value)
+        setFineDustValue(pm10Value)
+        setUltraFineDustValue(pm10Value)
+        setFineDustState(fineDustState)
+        setUltraFineDustState(ultraFineDustState)
     }
 
     fun getFineDustData(doName: String, siName: String) =

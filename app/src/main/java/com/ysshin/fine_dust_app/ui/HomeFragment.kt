@@ -10,7 +10,6 @@ import com.ysshin.fine_dust_app.data.DustResponse
 import com.ysshin.fine_dust_app.data.WeatherResponse
 import com.ysshin.fine_dust_app.databinding.FragmentHomeBinding
 import com.ysshin.fine_dust_app.utils.AddressConverter
-import com.ysshin.fine_dust_app.utils.FineDustConverter
 import com.ysshin.fine_dust_app.utils.LocationUtil
 import com.ysshin.fine_dust_app.utils.PreferenceManager
 import com.ysshin.fine_dust_app.viewmodels.HomeViewModel
@@ -19,7 +18,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
 
 class HomeFragment : Fragment() {
 
@@ -45,10 +43,19 @@ class HomeFragment : Fragment() {
         val doName = AddressConverter.convert("${locationData?.first()}")
         val siName = "${locationData?.last()}"
         val address = "$doName $siName"
-        preferenceManager.saveAddressLine(address)
-        preferenceManager.saveDoName(doName)
-        preferenceManager.saveSiName(siName)
+        if (preferenceManager.getAddressLine() != address) {
+            preferenceManager.saveAddressLine(address)
+            preferenceManager.saveDoName(doName)
+            preferenceManager.saveSiName(siName)
+        }
+        viewModel.setDataTime(preferenceManager.getDataTime())
         viewModel.setAddressLine(address)
+        viewModel.setAllFineDustInfo(
+            preferenceManager.getPm10Value(),
+            preferenceManager.getPm25Value()
+        )
+        viewModel.setMaxTemperature(preferenceManager.getMaxTemperature())
+        viewModel.setMinTemperature(preferenceManager.getMinTemperature())
         viewModel.setLoading(false)
     }
 
@@ -57,10 +64,13 @@ class HomeFragment : Fragment() {
         if (!viewModel.needUpdate())
             return
 
+        Log.d("yoonseop", "Update occurs")
         viewModel.setLoading(true)
+        Log.d("yoonseop", "loading: ${viewModel.loading.value}")
         fetchDustInformation()
         fetchWeatherInformation()
         viewModel.setLoading(false)
+        Log.d("yoonseop", "loading: ${viewModel.loading.value}")
     }
 
     private fun fetchWeatherInformation() {
@@ -77,6 +87,8 @@ class HomeFragment : Fragment() {
                 val skyList = weatherResponse.skyList
                 val maxTemperature = weatherResponse.maxTemperature
                 val minTemperature = weatherResponse.minTemperature
+                preferenceManager.saveMaxTemperature(maxTemperature)
+                preferenceManager.saveMinTemperature(minTemperature)
                 viewModel.setMaxTemperature(maxTemperature)
                 viewModel.setMinTemperature(minTemperature)
             }
@@ -101,23 +113,10 @@ class HomeFragment : Fragment() {
                         preferenceManager.apply {
                             saveDataTime(dust.dataTime)
                             saveCityName(dust.cityName)
-                            saveSo2Value(dust.so2Value)
-                            saveCoValue(dust.coValue)
-                            saveO3Value(dust.o3Value)
-                            saveNo2Value(dust.no2Value)
-                            savePm10Value(dust.pm10Value)
-                            savePm25Value(dust.pm25Value)
+                            savePm10Value(dust.pm10Value.toInt())
+                            savePm25Value(dust.pm25Value.toInt())
                         }
-                        val pm10Value = dust.pm10Value.toInt()
-                        val pm25Value = dust.pm25Value.toInt()
-                        val fineDustState =
-                            FineDustConverter.convertToFineDustState(pm10Value)
-                        val ultraFineDustState =
-                            FineDustConverter.convertToFineDustState(pm25Value)
-                        viewModel.setFineDustValue(dust.pm10Value.toInt())
-                        viewModel.setUltraFineDustValue(dust.pm25Value.toInt())
-                        viewModel.setFineDustState(fineDustState)
-                        viewModel.setUltraFineDustState(ultraFineDustState)
+                        viewModel.setAllFineDustInfo(dust.pm10Value.toInt(), dust.pm25Value.toInt())
                         viewModel.setDataTime(dust.dataTime)
                         break
                     }

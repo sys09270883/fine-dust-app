@@ -62,5 +62,4 @@ fun ProgressBar.bindVisibility(loading: Boolean) {
         true -> View.VISIBLE
         else -> View.GONE
     }
-
 }
