@@ -163,11 +163,11 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
     }
 
     fun setAfternoonSkyState(state: Int) {
-        _morningSkyState.value = state
+        _afternoonSkyState.value = state
     }
 
     fun setEveningSkyState(state: Int) {
-        _morningSkyState.value = state
+        _eveningSkyState.value = state
     }
 
 }
