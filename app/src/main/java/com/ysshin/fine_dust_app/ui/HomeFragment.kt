@@ -61,6 +61,9 @@ class HomeFragment : Fragment() {
             preferenceManager.getPm10Value(),
             preferenceManager.getPm25Value()
         )
+        viewModel.setMorningSkyState(preferenceManager.getMorningSkyState())
+        viewModel.setAfternoonSkyState(preferenceManager.getAfternoonSkyState())
+        viewModel.setEveningSkyState(preferenceManager.getEveningSkyState())
         viewModel.setMaxTemperature(preferenceManager.getMaxTemperature())
         viewModel.setMinTemperature(preferenceManager.getMinTemperature())
         viewModel.setLoading(false)
@@ -103,9 +106,18 @@ class HomeFragment : Fragment() {
                 for (sky in skyList) {
                     sky.apply {
                         when (hour) {
-                            600 -> viewModel.setMorningSkyState(value)
-                            1200 -> viewModel.setAfternoonSkyState(value)
-                            1800 -> viewModel.setEveningSkyState(value)
+                            600 -> {
+                                viewModel.setMorningSkyState(value)
+                                preferenceManager.setMorningSkyState(value)
+                            }
+                            1200 -> {
+                                viewModel.setAfternoonSkyState(value)
+                                preferenceManager.setAfternoonSkyState(value)
+                            }
+                            1800 -> {
+                                viewModel.setEveningSkyState(value)
+                                preferenceManager.setEveningSkyState(value)
+                            }
                         }
                     }
                 }
@@ -133,7 +145,7 @@ class HomeFragment : Fragment() {
             override fun onResponse(call: Call<DustResponse>, response: Response<DustResponse>) {
                 val dustResponse = response.body() ?: return
 
-                Log.d("yoonseop", "${dustResponse}")
+                Log.d("yoonseop", "$dustResponse")
                 val dusts = dustResponse.dusts
                 for (dust in dusts) {
                     if (preferenceManager.getSiName() == dust.cityName) {
