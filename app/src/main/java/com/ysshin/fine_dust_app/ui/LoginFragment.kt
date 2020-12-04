@@ -48,6 +48,15 @@ class LoginFragment : Fragment() {
         autoLogin()
     }
 
+    fun intentToHomeActivity() {
+        val activity = requireActivity()
+        val intent = Intent(activity, HomeActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
+        activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+        activity.finish()
+    }
+
     private fun autoLogin() {
         val token = preferenceManager.getToken() ?: return
         viewModel.setLoading(true)
@@ -58,12 +67,7 @@ class LoginFragment : Fragment() {
                 val tokenResponse = response.body() ?: return
                 if (token != tokenResponse.token)
                     return
-                val activity = requireActivity()
-                val intent = Intent(activity, HomeActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                startActivity(intent)
-                activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-                activity.finish()
+                intentToHomeActivity()
             }
 
             override fun onFailure(call: Call<Token>, t: Throwable) {
@@ -87,12 +91,7 @@ class LoginFragment : Fragment() {
                     authData.apply {
                         preferenceManager.saveToken(token)
                         viewModel.setLoading(false)
-                        val activity = requireActivity()
-                        val intent = Intent(activity, HomeActivity::class.java)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        startActivity(intent)
-                        activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-                        activity.finish()
+                        intentToHomeActivity()
                     }
                 }
             }

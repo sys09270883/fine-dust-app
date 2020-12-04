@@ -70,7 +70,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun fetchAllInformation() {
+    private fun fetchAllInformation() {
         Log.d("yoonseop", "Update occurs")
         viewModel.setLoading(true)
         fetchDustInformation()

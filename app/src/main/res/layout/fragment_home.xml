@@ -67,10 +67,105 @@
                 app:layout_constraintStart_toStartOf="@id/mainDustImageView"
                 app:layout_constraintTop_toBottomOf="@+id/mainDustImageView" />
 
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/skyCardView"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintBottom_toTopOf="@id/temperatureCardView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintWidth_percent="0.9">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/morningSkyImageView"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        app:bind_sky_image="@{viewModel.skyState}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/afternoonSkyImageView"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/morningSkyTextView"
+                        app:layout_constraintWidth_percent="0.33" />
+
+                    <TextView
+                        android:id="@+id/morningSkyTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/prompt_morning"
+                        android:textAlignment="center"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toTopOf="@id/morningSkyImageView"
+                        app:layout_constraintEnd_toEndOf="@id/morningSkyImageView"
+                        app:layout_constraintStart_toStartOf="@id/morningSkyImageView"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/afternoonSkyImageView"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        app:bind_sky_image="@{viewModel.skyState}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/eveningSkyImageView"
+                        app:layout_constraintStart_toEndOf="@id/morningSkyImageView"
+                        app:layout_constraintTop_toBottomOf="@id/afternoonSkyTextView"
+                        app:layout_constraintWidth_percent="0.33" />
+
+                    <TextView
+                        android:id="@+id/afternoonSkyTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/prompt_afternoon"
+                        android:textAlignment="center"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toTopOf="@id/afternoonSkyImageView"
+                        app:layout_constraintEnd_toEndOf="@id/afternoonSkyImageView"
+                        app:layout_constraintStart_toStartOf="@id/afternoonSkyImageView"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/eveningSkyImageView"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        app:bind_sky_image="@{viewModel.skyState}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/afternoonSkyImageView"
+                        app:layout_constraintTop_toBottomOf="@id/eveningSkyTextView"
+                        app:layout_constraintWidth_percent="0.33" />
+
+                    <TextView
+                        android:id="@+id/eveningSkyTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/prompt_evening"
+                        android:textAlignment="center"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toTopOf="@id/eveningSkyImageView"
+                        app:layout_constraintEnd_toEndOf="@id/eveningSkyImageView"
+                        app:layout_constraintStart_toStartOf="@id/eveningSkyImageView"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/temperatureCardView"
                 android:layout_width="0dp"
-                android:layout_height="100dp"
+                android:layout_height="80dp"
                 android:layout_marginBottom="10dp"
                 app:cardCornerRadius="10dp"
                 app:layout_constraintBottom_toTopOf="@id/dustCardView"
@@ -109,7 +204,6 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintWidth_percent="0.2" />
 
-
                     <ImageView
                         android:id="@+id/maxTemperatureImageView"
                         android:layout_width="0dp"
@@ -143,7 +237,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/dustCardView"
                 android:layout_width="0dp"
-                android:layout_height="100dp"
+                android:layout_height="80dp"
                 android:layout_marginBottom="10dp"
                 app:cardCornerRadius="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"

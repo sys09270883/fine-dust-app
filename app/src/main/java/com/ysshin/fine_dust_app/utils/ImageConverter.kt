@@ -21,6 +21,11 @@ object ImageConverter {
         R.drawable.icon_unhealthy,
         R.drawable.icon_very_unhealthy,
     )
+    private val skyIconList = listOf(
+        R.drawable.sunny,
+        R.drawable.mostly_cloudy,
+        R.drawable.cloudy,
+    )
 
     fun convertToBackgroundImage(dustState: Int) = backgroundImageList[dustState]
 
@@ -29,4 +34,6 @@ object ImageConverter {
     fun convertFineDustToIcon(fineDustState: Int): Int = iconList[fineDustState]
 
     fun convertUltraFineDustToIcon(ultraFineDustValue: Int) = iconList[ultraFineDustValue]
+
+    fun convertToSkyImage(skyState: Int) = skyIconList[skyState]
 }

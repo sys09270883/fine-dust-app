@@ -23,6 +23,13 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
     }
     val fineDustState get() = _fineDustState
 
+    private val _skyState: MutableLiveData<Int> by lazy {
+        MutableLiveData<Int>().apply {
+            value = 0
+        }
+    }
+    val skyState get() = _skyState
+
     private val _fineDustValue: MutableLiveData<Int> by lazy {
         MutableLiveData<Int>().apply {
             value = 0
