@@ -39,41 +39,52 @@ class HomeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.setLoading(true)
-        /* 현재 주소 확인 */
         val locationData = LocationUtil.getInstance(requireContext()).getCurrentLocationData()
         val doName = AddressConverter.convert("${locationData?.first()}")
         val siName = "${locationData?.last()}"
         val address = "$doName $siName"
-        Log.d("yoonseop", "현재 주소: $address")
-        Log.d("yoonseop", "저장된 주소 : ${preferenceManager.getAddressLine()}")
-
-        /* 저장된 주소와 현재 주소가 다르다면 주소 갱신 */
-        if (preferenceManager.getAddressLine() != address) {
-            preferenceManager.saveAddressLine(address)
-            preferenceManager.saveDoName(doName)
-            preferenceManager.saveSiName(siName)
-        }
-
-        /* ViewModel 초기화 */
-        viewModel.setDataTime(preferenceManager.getDataTime())
-        viewModel.setAddressLine(address)
-        viewModel.setAllFineDustInfo(
-            preferenceManager.getPm10Value(),
-            preferenceManager.getPm25Value()
-        )
-        viewModel.setMorningSkyState(preferenceManager.getMorningSkyState())
-        viewModel.setAfternoonSkyState(preferenceManager.getAfternoonSkyState())
-        viewModel.setEveningSkyState(preferenceManager.getEveningSkyState())
-        viewModel.setMaxTemperature(preferenceManager.getMaxTemperature())
-        viewModel.setMinTemperature(preferenceManager.getMinTemperature())
+        updateIfAddressNotSame(address, doName, siName)
+        initViewModel()
+        initRefreshLayout()
         viewModel.setLoading(false)
+    }
 
+    private fun initRefreshLayout() {
         val refreshLayout = binding.container
         refreshLayout.setOnRefreshListener {
             fetchAllInformation()
             refreshLayout.isRefreshing = false
         }
     }
+
+    private fun updateIfAddressNotSame(address: String, doName: String, siName: String): Boolean {
+        if (preferenceManager.getAddressLine() != address) {
+            preferenceManager.saveAddressLine(address)
+            preferenceManager.saveDoName(doName)
+            preferenceManager.saveSiName(siName)
+            return true
+        }
+        return false
+    }
+
+    private fun initViewModel() {
+        viewModel.apply {
+            preferenceManager.let {
+                setDataTime(it.getDataTime())
+                setAddressLine(it.getAddressLine())
+                setAllFineDustInfo(
+                    it.getPm10Value(),
+                    it.getPm25Value()
+                )
+                setMorningSkyState(it.getMorningSkyState())
+                setAfternoonSkyState(it.getAfternoonSkyState())
+                setEveningSkyState(it.getEveningSkyState())
+                setMaxTemperature(it.getMaxTemperature())
+                setMinTemperature(it.getMinTemperature())
+            }
+        }
+    }
+
 
     private fun fetchAllInformation() {
         Log.d("yoonseop", "Update occurs")
