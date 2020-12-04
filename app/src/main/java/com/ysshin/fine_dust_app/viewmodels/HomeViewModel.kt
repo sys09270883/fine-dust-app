@@ -134,7 +134,7 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
         val ultraFineDustState =
             FineDustConverter.convertToUltraFineDustState(pm25Value)
         setFineDustValue(pm10Value)
-        setUltraFineDustValue(pm10Value)
+        setUltraFineDustValue(pm25Value)
         setFineDustState(fineDustState)
         setUltraFineDustState(ultraFineDustState)
     }
