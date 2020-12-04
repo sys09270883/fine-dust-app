@@ -29,8 +29,10 @@ class LocationUtil private constructor(val context: Context) {
         for (provider in providers) {
             val location = locationManager.getLastKnownLocation(provider)
             location?.apply {
-                if (bestLocation == null || location.accuracy < bestLocation!!.accuracy)
+                if (bestLocation == null || location.accuracy < bestLocation!!.accuracy) {
+                    Log.d("yoonseop", "Location provider: $provider")
                     bestLocation = location
+                }
             }
         }
         return bestLocation

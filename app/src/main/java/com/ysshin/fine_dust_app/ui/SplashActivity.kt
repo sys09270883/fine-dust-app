@@ -42,12 +42,10 @@ class SplashActivity : AppCompatActivity() {
         if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED &&
             hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED
         ) {
-            CoroutineScope(Dispatchers.Main).launch {
-                val intent = Intent(this@SplashActivity, AuthActivity::class.java)
-                startActivity(intent)
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-                finish()
-            }
+            val intent = Intent(this@SplashActivity, AuthActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+            finish()
         } else {
             ActivityCompat.requestPermissions(this, requiredPermissions, permissionRequestCode)
         }
@@ -94,7 +92,8 @@ class SplashActivity : AppCompatActivity() {
     private fun checkLocationServiceStatus(): Boolean {
         val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) or
-                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) or
+                locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER)
     }
 
     private fun showLocationSettingDialog() {
