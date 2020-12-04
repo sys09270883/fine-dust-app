@@ -46,6 +46,11 @@ fun ImageView.bindImage(dustState: Int) {
     setImageResource(ImageConverter.convertToMainIcon(dustState))
 }
 
+@BindingAdapter("bind_sky_image")
+fun ImageView.bindSkyImage(skyState: Int) {
+    setImageResource(ImageConverter.convertToSkyImage(skyState))
+}
+
 @BindingAdapter("bind_bottom_fine_dust_image")
 fun ImageView.bindFineDustImage(fineDustValue: Int) {
     setImageResource(ImageConverter.convertFineDustToIcon(fineDustValue))

@@ -32,4 +32,23 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
+
+    <style name="TextInputLayoutTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorAccent">@color/hintColorDark</item>
+    </style>
+
+    <style name="TextInputLayoutStyle" parent="Widget.Design.TextInputLayout">
+        <item name="android:textColorHint">?android:textColorHint</item>
+        <item name="hintTextColor">@color/hintColorPrimary</item>
+        <item name="boxStrokeColor">@color/hintColorDark</item>
+        <item name="colorControlActivated">@color/hintColorDark</item>
+        <item name="colorControlHighlight">@color/hintColorDark</item>
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="passwordToggleTint">@color/hintColorLight</item>
+    </style>
+
+    <style name="TextInputEditTextStyle" parent="Widget.Design.TextInputLayout">
+        <item name="android:textCursorDrawable">@color/hintColorPrimary</item>
+    </style>
+
 </resources>

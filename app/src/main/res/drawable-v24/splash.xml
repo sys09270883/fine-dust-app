@@ -3,7 +3,7 @@
     <item android:drawable="@android:color/background_light" />
     <item>
         <bitmap
-            android:src="@drawable/dust_icon"
+            android:src="@drawable/dust"
             android:gravity="center"/>
     </item>
 </layer-list>

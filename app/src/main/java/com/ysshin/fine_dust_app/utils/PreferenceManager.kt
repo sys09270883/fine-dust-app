@@ -24,6 +24,9 @@ class PreferenceManager(private val context: Context) {
         private const val PM25_VALUE = "pm25_value"
         private const val MAX_TEMPERATURE = "max_temperature"
         private const val MIN_TEMPERATURE = "min_temperature"
+        private const val MORNING_SKY_STATE = "morning_sky"
+        private const val AFTERNOON_SKY_STATE = "afternoon_sky"
+        private const val EVENING_SKY_STATE = "evening_sky"
     }
 
     private fun getPreferences(): SharedPreferences {
@@ -203,6 +206,42 @@ class PreferenceManager(private val context: Context) {
     fun getMinTemperature(): Double {
         val pref = getPreferences()
         return pref.getFloat(MIN_TEMPERATURE, DEFAULT_FLOAT).toDouble()
+    }
+
+    fun setMorningSkyState(value: Int) {
+        val pref = getPreferences()
+        val editor = pref.edit()
+        editor.putInt(MORNING_SKY_STATE, value)
+        editor.apply()
+    }
+
+    fun getMorningSkyState(): Int {
+        val pref = getPreferences()
+        return pref.getInt(MORNING_SKY_STATE, DEFAULT_INT)
+    }
+
+    fun setAfternoonSkyState(value: Int) {
+        val pref = getPreferences()
+        val editor = pref.edit()
+        editor.putInt(AFTERNOON_SKY_STATE, value)
+        editor.apply()
+    }
+
+    fun getAfternoonSkyState(): Int {
+        val pref = getPreferences()
+        return pref.getInt(AFTERNOON_SKY_STATE, DEFAULT_INT)
+    }
+
+    fun setEveningSkyState(value: Int) {
+        val pref = getPreferences()
+        val editor = pref.edit()
+        editor.putInt(EVENING_SKY_STATE, value)
+        editor.apply()
+    }
+
+    fun getEveningSkyState(): Int {
+        val pref = getPreferences()
+        return pref.getInt(EVENING_SKY_STATE, DEFAULT_INT)
     }
 
 }

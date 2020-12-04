@@ -16,5 +16,8 @@
     <string name="fine_dust_moderate">보통 공기</string>
     <string name="fine_dust_unhealthy">나쁜 공기</string>
     <string name="fine_dust_very_unhealthy">매우 나쁜 공기</string>
+    <string name="prompt_morning">아침</string>
+    <string name="prompt_afternoon">점심</string>
+    <string name="prompt_evening">저녁</string>
 
 </resources>

@@ -39,24 +39,47 @@ class HomeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.setLoading(true)
+        /* 현재 주소 확인 */
         val locationData = LocationUtil.getInstance(requireContext()).getCurrentLocationData()
         val doName = AddressConverter.convert("${locationData?.first()}")
         val siName = "${locationData?.last()}"
         val address = "$doName $siName"
+        Log.d("yoonseop", "현재 주소: $address")
+        Log.d("yoonseop", "저장된 주소 : ${preferenceManager.getAddressLine()}")
+
+        /* 저장된 주소와 현재 주소가 다르다면 주소 갱신 */
         if (preferenceManager.getAddressLine() != address) {
             preferenceManager.saveAddressLine(address)
             preferenceManager.saveDoName(doName)
             preferenceManager.saveSiName(siName)
         }
+
+        /* ViewModel 초기화 */
         viewModel.setDataTime(preferenceManager.getDataTime())
         viewModel.setAddressLine(address)
         viewModel.setAllFineDustInfo(
             preferenceManager.getPm10Value(),
             preferenceManager.getPm25Value()
         )
+        viewModel.setMorningSkyState(preferenceManager.getMorningSkyState())
+        viewModel.setAfternoonSkyState(preferenceManager.getAfternoonSkyState())
+        viewModel.setEveningSkyState(preferenceManager.getEveningSkyState())
         viewModel.setMaxTemperature(preferenceManager.getMaxTemperature())
         viewModel.setMinTemperature(preferenceManager.getMinTemperature())
         viewModel.setLoading(false)
+
+        val refreshLayout = binding.container
+        refreshLayout.setOnRefreshListener {
+            fetchAllInformation()
+            refreshLayout.isRefreshing = false
+        }
+    }
+
+    private fun fetchAllInformation() {
+        Log.d("yoonseop", "Update occurs")
+        viewModel.setLoading(true)
+        fetchDustInformation()
+        fetchWeatherInformation()
     }
 
     override fun onResume() {
@@ -64,13 +87,7 @@ class HomeFragment : Fragment() {
         if (!viewModel.needUpdate())
             return
 
-        Log.d("yoonseop", "Update occurs")
-        viewModel.setLoading(true)
-        Log.d("yoonseop", "loading: ${viewModel.loading.value}")
-        fetchDustInformation()
-        fetchWeatherInformation()
-        viewModel.setLoading(false)
-        Log.d("yoonseop", "loading: ${viewModel.loading.value}")
+        fetchAllInformation()
     }
 
     private fun fetchWeatherInformation() {
@@ -86,16 +103,36 @@ class HomeFragment : Fragment() {
 
                 val skyList = weatherResponse.skyList
                 Log.d("yoonseop", "skyList: $skyList")
+                for (sky in skyList) {
+                    sky.apply {
+                        when (hour) {
+                            600 -> {
+                                viewModel.setMorningSkyState(value)
+                                preferenceManager.setMorningSkyState(value)
+                            }
+                            1200 -> {
+                                viewModel.setAfternoonSkyState(value)
+                                preferenceManager.setAfternoonSkyState(value)
+                            }
+                            1800 -> {
+                                viewModel.setEveningSkyState(value)
+                                preferenceManager.setEveningSkyState(value)
+                            }
+                        }
+                    }
+                }
                 val maxTemperature = weatherResponse.maxTemperature
                 val minTemperature = weatherResponse.minTemperature
                 preferenceManager.saveMaxTemperature(maxTemperature)
                 preferenceManager.saveMinTemperature(minTemperature)
                 viewModel.setMaxTemperature(maxTemperature)
                 viewModel.setMinTemperature(minTemperature)
+                viewModel.setLoading(false)
             }
 
             override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
-                Log.e("weather", "${t.message}")
+                Log.e("yoonseop", "${t.message}")
+                viewModel.setLoading(false)
             }
         })
     }
@@ -108,6 +145,7 @@ class HomeFragment : Fragment() {
             override fun onResponse(call: Call<DustResponse>, response: Response<DustResponse>) {
                 val dustResponse = response.body() ?: return
 
+                Log.d("yoonseop", "$dustResponse")
                 val dusts = dustResponse.dusts
                 for (dust in dusts) {
                     if (preferenceManager.getSiName() == dust.cityName) {
@@ -122,10 +160,12 @@ class HomeFragment : Fragment() {
                         break
                     }
                 }
+                viewModel.setLoading(false)
             }
 
             override fun onFailure(call: Call<DustResponse>, t: Throwable) {
-                Log.e("dusts", "${t.message}")
+                Log.e("yoonseop", "${t.message}")
+                viewModel.setLoading(false)
             }
         })
     }

@@ -10,37 +10,37 @@ import retrofit2.Call
 class RegistrationViewModel(private val repository: RegistrationRepository) : ViewModel() {
     val username: MutableLiveData<String> by lazy {
         MutableLiveData<String>().apply {
-            postValue("")
+            value = ""
         }
     }
 
     val password1: MutableLiveData<String> by lazy {
         MutableLiveData<String>().apply {
-            postValue("")
+            value = ""
         }
     }
 
     val password2: MutableLiveData<String> by lazy {
         MutableLiveData<String>().apply {
-            postValue("")
+            value = ""
         }
     }
 
     val email: MutableLiveData<String> by lazy {
         MutableLiveData<String>().apply {
-            postValue("")
+            value = ""
         }
     }
 
     val firstName: MutableLiveData<String> by lazy {
         MutableLiveData<String>().apply {
-            postValue("")
+            value = ""
         }
     }
 
     val lastName: MutableLiveData<String> by lazy {
         MutableLiveData<String>().apply {
-            postValue("")
+            value = ""
         }
     }
 
