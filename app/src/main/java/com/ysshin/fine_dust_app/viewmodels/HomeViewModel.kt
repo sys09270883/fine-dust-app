@@ -23,12 +23,26 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
     }
     val fineDustState get() = _fineDustState
 
-    private val _skyState: MutableLiveData<Int> by lazy {
+    private val _morningSkyState: MutableLiveData<Int> by lazy {
         MutableLiveData<Int>().apply {
             value = 0
         }
     }
-    val skyState get() = _skyState
+    val morningSkyState get() = _morningSkyState
+
+    private val _afternoonSkyState: MutableLiveData<Int> by lazy {
+        MutableLiveData<Int>().apply {
+            value = 0
+        }
+    }
+    val afternoonSkyState get() = _afternoonSkyState
+
+    private val _eveningSkyState: MutableLiveData<Int> by lazy {
+        MutableLiveData<Int>().apply {
+            value = 0
+        }
+    }
+    val eveningSkyState get() = _eveningSkyState
 
     private val _fineDustValue: MutableLiveData<Int> by lazy {
         MutableLiveData<Int>().apply {
@@ -118,7 +132,7 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
         val fineDustState =
             FineDustConverter.convertToFineDustState(pm10Value)
         val ultraFineDustState =
-            FineDustConverter.convertToFineDustState(pm25Value)
+            FineDustConverter.convertToUltraFineDustState(pm25Value)
         setFineDustValue(pm10Value)
         setUltraFineDustValue(pm10Value)
         setFineDustState(fineDustState)
@@ -142,6 +156,18 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
         val curHour = curTime.hour
 
         return kotlin.math.abs(dataHour - curHour) >= 2
+    }
+
+    fun setMorningSkyState(state: Int) {
+        _morningSkyState.value = state
+    }
+
+    fun setAfternoonSkyState(state: Int) {
+        _morningSkyState.value = state
+    }
+
+    fun setEveningSkyState(state: Int) {
+        _morningSkyState.value = state
     }
 
 }

@@ -44,6 +44,8 @@ class HomeFragment : Fragment() {
         val doName = AddressConverter.convert("${locationData?.first()}")
         val siName = "${locationData?.last()}"
         val address = "$doName $siName"
+        Log.d("yoonseop", "현재 주소: $address")
+        Log.d("yoonseop", "저장된 주소 : ${preferenceManager.getAddressLine()}")
 
         /* 저장된 주소와 현재 주소가 다르다면 주소 갱신 */
         if (preferenceManager.getAddressLine() != address) {
@@ -98,6 +100,15 @@ class HomeFragment : Fragment() {
 
                 val skyList = weatherResponse.skyList
                 Log.d("yoonseop", "skyList: $skyList")
+                for (sky in skyList) {
+                    sky.apply {
+                        when (hour) {
+                            600 -> viewModel.setMorningSkyState(value)
+                            1200 -> viewModel.setAfternoonSkyState(value)
+                            1800 -> viewModel.setEveningSkyState(value)
+                        }
+                    }
+                }
                 val maxTemperature = weatherResponse.maxTemperature
                 val minTemperature = weatherResponse.minTemperature
                 preferenceManager.saveMaxTemperature(maxTemperature)

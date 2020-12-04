@@ -6,6 +6,7 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
+import android.util.Log
 import java.util.*
 
 class LocationUtil private constructor(val context: Context) {
@@ -37,8 +38,10 @@ class LocationUtil private constructor(val context: Context) {
 
     private fun getAddress(): Address? {
         val location = getLocation() ?: return null
+        Log.d("yoonseop", "위치: $location")
         val geocoder = Geocoder(context, Locale.getDefault())
         val addresses = geocoder.getFromLocation(location.latitude, location.longitude, MAX_RESULT)
+        Log.d("yoonseop", "주소: $addresses")
         if (addresses == null || addresses.size == 0)
             return null
         return addresses.first()
