@@ -15,7 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        buildConfigField "String", "BASE_URL", "\"https://gvkuhjey1j.execute-api.ap-northeast-2.amazonaws.com/dev/\""
+        buildConfigField "String", "BASE_URL", "\"https://poty9gnncd.execute-api.ap-northeast-2.amazonaws.com/production/\""
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
