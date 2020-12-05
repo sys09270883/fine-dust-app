@@ -8,10 +8,13 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 val apiModule = module {
     fun provideOkHttpClient(interceptor: HttpLoggingInterceptor) = OkHttpClient.Builder()
         .addInterceptor(interceptor)
+        .connectTimeout(1, TimeUnit.MINUTES)
+        .readTimeout(30, TimeUnit.SECONDS)
         .build()
 
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
