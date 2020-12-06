@@ -46,7 +46,12 @@ class LocationUtil private constructor(val context: Context) {
         Log.d("yoonseop", "주소: $addresses")
         if (addresses == null || addresses.size == 0)
             return null
-        return addresses.first()
+        for (address in addresses) {
+            val splitAddress = address.getAddressLine(0).split(" ")
+            if (AddressConverter.contains(splitAddress[1]))
+                return address
+        }
+        return null
     }
 
     fun getCurrentLocationData(): List<String>? {
