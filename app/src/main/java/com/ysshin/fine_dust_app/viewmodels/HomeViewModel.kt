@@ -86,9 +86,9 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
     }
     val minTemperature get() = _minTemperature
 
-    val loading: MutableLiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().apply {
-            value = false
+    val loading: MutableLiveData<Int> by lazy {
+        MutableLiveData<Int>().apply {
+            value = 0b11
         }
     }
 
@@ -100,8 +100,11 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
         _minTemperature.value = temperature
     }
 
-    fun setLoading(isLoading: Boolean) {
-        loading.value = isLoading
+    fun setLoading(loadingBit: Int) {
+        loading.value = when (loadingBit) {
+            0b00 -> 0b00
+            else -> loading.value?.or(loadingBit)
+        }
     }
 
     fun setAddressLine(address: String) {

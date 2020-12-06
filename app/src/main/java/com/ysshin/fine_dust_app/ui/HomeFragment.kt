@@ -38,7 +38,7 @@ class HomeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.setLoading(true)
+        viewModel.setLoading(0b00)
         val locationData = LocationUtil.getInstance(requireContext()).getCurrentLocationData()
         val doName = AddressConverter.convert("${locationData?.first()}")
         val siName = "${locationData?.last()}"
@@ -46,7 +46,7 @@ class HomeFragment : Fragment() {
         updateIfAddressNotSame(address, doName, siName)
         initViewModel()
         initRefreshLayout()
-        viewModel.setLoading(false)
+        viewModel.setLoading(0b11)
     }
 
     private fun initRefreshLayout() {
@@ -88,7 +88,8 @@ class HomeFragment : Fragment() {
 
     private fun fetchAllInformation() {
         Log.d("yoonseop", "Update occurs")
-        viewModel.setLoading(true)
+        viewModel.setLoading(0b00)
+        Log.d("yoonseop", "${viewModel.loading.value}")
         fetchDustInformation()
         fetchWeatherInformation()
     }
@@ -138,12 +139,14 @@ class HomeFragment : Fragment() {
                 preferenceManager.saveMinTemperature(minTemperature)
                 viewModel.setMaxTemperature(maxTemperature)
                 viewModel.setMinTemperature(minTemperature)
-                viewModel.setLoading(false)
+                viewModel.setLoading(0b01)
+                Log.d("yoonseop", "${viewModel.loading.value}")
             }
 
             override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
                 Log.e("yoonseop", "${t.message}")
-                viewModel.setLoading(false)
+                viewModel.setLoading(0b01)
+                Log.d("yoonseop", "${viewModel.loading.value}")
             }
         })
     }
@@ -171,12 +174,14 @@ class HomeFragment : Fragment() {
                         break
                     }
                 }
-                viewModel.setLoading(false)
+                viewModel.setLoading(0b10)
+                Log.d("yoonseop", "${viewModel.loading.value}")
             }
 
             override fun onFailure(call: Call<DustResponse>, t: Throwable) {
                 Log.e("yoonseop", "${t.message}")
-                viewModel.setLoading(false)
+                viewModel.setLoading(0b10)
+                Log.d("yoonseop", "${viewModel.loading.value}")
             }
         })
     }

@@ -3,6 +3,8 @@ package com.ysshin.fine_dust_app.di
 import com.ysshin.fine_dust_app.BuildConfig
 import com.ysshin.fine_dust_app.api.AuthService
 import com.ysshin.fine_dust_app.api.WeatherService
+import com.ysshin.fine_dust_app.utils.PreferenceManager
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -11,8 +13,20 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 val apiModule = module {
-    fun provideOkHttpClient(interceptor: HttpLoggingInterceptor) = OkHttpClient.Builder()
-        .addInterceptor(interceptor)
+    fun provideHeaderInterceptor(preferenceManager: PreferenceManager) = Interceptor { chain ->
+        val newRequest = chain.request().newBuilder()
+            .addHeader("Authorization", "JWT ${preferenceManager.getToken()}")
+            .build()
+        chain.proceed(newRequest)
+    }
+
+    fun provideHttpLoggingInterceptor() =
+        HttpLoggingInterceptor().apply { HttpLoggingInterceptor.Level.BASIC }
+
+    fun provideOkHttpClient(
+        httpLoggingInterceptor: HttpLoggingInterceptor
+    ) = OkHttpClient.Builder()
+        .addInterceptor(httpLoggingInterceptor)
         .connectTimeout(1, TimeUnit.MINUTES)
         .readTimeout(30, TimeUnit.SECONDS)
         .build()
@@ -27,7 +41,8 @@ val apiModule = module {
     fun provideWeatherService(retrofit: Retrofit): WeatherService =
         retrofit.create(WeatherService::class.java)
 
-    single { HttpLoggingInterceptor().apply { HttpLoggingInterceptor.Level.BASIC } }
+//    single { provideHeaderInterceptor(get()) }
+    single { provideHttpLoggingInterceptor() }
     single { provideOkHttpClient(get()) }
     single { provideRetrofit(get()) }
     single { provideAuthService(get()) }
