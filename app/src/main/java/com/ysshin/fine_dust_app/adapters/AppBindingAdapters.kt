@@ -1,5 +1,6 @@
 package com.ysshin.fine_dust_app.adapters
 
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -66,5 +67,14 @@ fun ProgressBar.bindVisibility(loading: Boolean) {
     visibility = when (loading) {
         true -> View.VISIBLE
         else -> View.GONE
+    }
+}
+
+@BindingAdapter("bind_visibility_by_int")
+fun ProgressBar.bindVisibilityByInt(loading: Int) {
+    Log.d("yoonseop", "${loading}")
+    visibility = when (loading) {
+        0b11 -> View.GONE
+        else -> View.VISIBLE
     }
 }

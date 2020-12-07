@@ -1,6 +1,8 @@
 package com.ysshin.fine_dust_app.utils
 
 object AddressConverter {
+    fun contains(address: String) = convert(address) != ""
+
     fun convert(address: String): String {
         return when(address) {
             "서울특별시" -> "서울"
@@ -20,7 +22,7 @@ object AddressConverter {
             "경상남도" -> "경남"
             "제주특별자치도" -> "제주"
             "세종특별자치도" -> "세종"
-            else -> "서울"
+            else -> ""
         }
     }
 }

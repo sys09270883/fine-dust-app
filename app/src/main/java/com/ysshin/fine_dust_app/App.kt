@@ -22,7 +22,7 @@ class App : Application() {
                     viewModelModule,
                     repositoryModule,
                     apiModule,
-                    prefModule
+                    utilityModule
                 )
             )
         }
