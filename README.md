@@ -23,4 +23,4 @@
 - Koin
 
 ## API 서버
-https://github.com/sys09270883/fine-dust-app
+https://github.com/sys09270883/fine-dust-api
