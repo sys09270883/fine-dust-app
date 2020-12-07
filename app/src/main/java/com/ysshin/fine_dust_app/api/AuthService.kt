@@ -13,9 +13,9 @@ interface AuthService {
     fun logout()
 
     @POST("auth/registration/")
-    fun register(
+    suspend fun register(
         @Body registration: Registration
-    ): Call<Auth>
+    ): Auth
 
     @POST("auth/password/change/")
     fun changePassword(uid: Int, username: String, newPassword1: String, newPassword2: String)
