@@ -9,7 +9,8 @@ import android.location.LocationManager
 import android.util.Log
 import java.util.*
 
-class LocationUtil private constructor(val context: Context) {
+class LocationUtil(val context: Context) {
+
     companion object {
         private var instance: LocationUtil? = null
         private const val MAX_RESULT = 7

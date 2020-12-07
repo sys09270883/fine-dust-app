@@ -25,6 +25,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModel()
     private val preferenceManager: PreferenceManager by inject()
+    private val locationUtil: LocationUtil by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +40,7 @@ class HomeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.setLoading(0b00)
-        val locationData = LocationUtil.getInstance(requireContext()).getCurrentLocationData()
+        val locationData = locationUtil.getCurrentLocationData()
         val doName = AddressConverter.convert("${locationData?.first()}")
         val siName = "${locationData?.last()}"
         val address = "$doName $siName"
