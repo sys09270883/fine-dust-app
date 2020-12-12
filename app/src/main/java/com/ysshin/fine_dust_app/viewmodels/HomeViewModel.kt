@@ -10,7 +10,9 @@ import com.ysshin.fine_dust_app.utils.AddressConverter
 import com.ysshin.fine_dust_app.utils.FineDustConverter
 import com.ysshin.fine_dust_app.utils.LocationUtil
 import com.ysshin.fine_dust_app.utils.PreferenceManager
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 
 class HomeViewModel(
@@ -136,19 +138,19 @@ class HomeViewModel(
     fun fetchAllInformation() {
         setLoading(true)
         Log.d("yoonseop", "Before: ${loading.value}")
-        val jobs = mutableListOf<Deferred<Any>>()
 
         viewModelScope.launch {
-            jobs += async { fetchFineDustData() }
-            jobs += async { fetchWeatherData() }
-            jobs.awaitAll()
+            withContext(Dispatchers.IO) {
+                fetchFineDustData()
+                fetchWeatherData()
+            }
             Log.d("yoonseop", "All job completed.")
             setLoading(false)
             Log.d("yoonseop", "After: ${loading.value}")
         }
     }
 
-    private suspend fun fetchFineDustData() = withContext(Dispatchers.IO) {
+    private suspend fun fetchFineDustData() {
         try {
             val doName = preferenceManager.getDoName()
             val siName = preferenceManager.getSiName()
@@ -174,7 +176,7 @@ class HomeViewModel(
         }
     }
 
-    private suspend fun fetchWeatherData() = withContext(Dispatchers.IO) {
+    private suspend fun fetchWeatherData() {
         try {
             val location = locationUtil.getLocation() ?: throw Exception("No location now.")
             val lat = location.latitude.toInt()
