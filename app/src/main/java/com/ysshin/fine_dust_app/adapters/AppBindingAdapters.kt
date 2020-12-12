@@ -69,12 +69,3 @@ fun ProgressBar.bindVisibility(loading: Boolean) {
         else -> View.GONE
     }
 }
-
-@BindingAdapter("bind_visibility_by_int")
-fun ProgressBar.bindVisibilityByInt(loading: Int) {
-    Log.d("yoonseop", "${loading}")
-    visibility = when (loading) {
-        0b11 -> View.GONE
-        else -> View.VISIBLE
-    }
-}

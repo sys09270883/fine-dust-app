@@ -10,8 +10,7 @@ import com.ysshin.fine_dust_app.utils.AddressConverter
 import com.ysshin.fine_dust_app.utils.FineDustConverter
 import com.ysshin.fine_dust_app.utils.LocationUtil
 import com.ysshin.fine_dust_app.utils.PreferenceManager
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.time.LocalDateTime
 
 class HomeViewModel(
@@ -97,9 +96,9 @@ class HomeViewModel(
     }
     val minTemperature get() = _minTemperature
 
-    val loading: MutableLiveData<Int> by lazy {
-        MutableLiveData<Int>().apply {
-            postValue(0b11)
+    val loading: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>().apply {
+            postValue(false)
         }
     }
 
@@ -107,13 +106,8 @@ class HomeViewModel(
 
     private fun setMinTemperature(temperature: Double) = _minTemperature.postValue(temperature)
 
-    private fun setLoading(loadingBit: Int) {
-        loading.postValue(
-            when (loadingBit) {
-                0b00 -> 0b00
-                else -> loading.value?.or(loadingBit)
-            }
-        )
+    private fun setLoading(isLoading: Boolean) {
+        loading.postValue(isLoading)
     }
 
     private fun setAddressLine(address: String) = _addressLine.postValue(address)
@@ -140,78 +134,82 @@ class HomeViewModel(
     }
 
     fun fetchAllInformation() {
-        setLoading(0b00)
-        fetchFineDustData()
-        fetchWeatherData()
-    }
+        setLoading(true)
+        Log.d("yoonseop", "Before: ${loading.value}")
+        val jobs = mutableListOf<Deferred<Any>>()
 
-    private fun fetchFineDustData() {
-        val doName = preferenceManager.getDoName()
-        val siName = preferenceManager.getSiName()
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val dustResponse = repository.getDusts(doName = doName, siName = siName)
-                val dusts = dustResponse.dusts
-                for (dust in dusts) {
-                    if (preferenceManager.getSiName() == dust.cityName) {
-                        preferenceManager.apply {
-                            saveDataTime(dust.dataTime)
-                            saveCityName(dust.cityName)
-                            savePm10Value(dust.pm10Value.toInt())
-                            savePm25Value(dust.pm25Value.toInt())
-                        }
-                        setAllFineDustInfo(dust.pm10Value.toInt(), dust.pm25Value.toInt())
-                        setDataTime(dust.dataTime)
-                        break
-                    }
-                }
-            } catch (e: Exception) {
-                Log.e("yoonseop", "${e.message}")
-            } finally {
-                setLoading(0b10)
-            }
+        viewModelScope.launch {
+            jobs += async { fetchFineDustData() }
+            jobs += async { fetchWeatherData() }
+            jobs.awaitAll()
+            Log.d("yoonseop", "All job completed.")
+            setLoading(false)
+            Log.d("yoonseop", "After: ${loading.value}")
         }
     }
 
-    private fun fetchWeatherData() {
-        val location = locationUtil.getLocation() ?: return
-        val lat = location.latitude.toInt()
-        val lng = location.longitude.toInt()
+    private suspend fun fetchFineDustData() = withContext(Dispatchers.IO) {
+        try {
+            val doName = preferenceManager.getDoName()
+            val siName = preferenceManager.getSiName()
+            val dustResponse = repository.getDusts(doName = doName, siName = siName)
+            val dusts = dustResponse.dusts
+            for (dust in dusts) {
+                if (preferenceManager.getSiName() == dust.cityName) {
+                    preferenceManager.apply {
+                        saveDataTime(dust.dataTime)
+                        saveCityName(dust.cityName)
+                        savePm10Value(dust.pm10Value.toInt())
+                        savePm25Value(dust.pm25Value.toInt())
+                    }
+                    setAllFineDustInfo(dust.pm10Value.toInt(), dust.pm25Value.toInt())
+                    setDataTime(dust.dataTime)
+                    break
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("yoonseop", "${e.message}")
+        } finally {
+            Log.d("yoonseop", "Dust fetched.")
+        }
+    }
 
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val weatherResponse = repository.getWeatherInformation(lat = lat, lng = lng)
-                val skyList = weatherResponse.skyList
-                Log.d("yoonseop", "skyList: $skyList")
-                for (sky in skyList) {
-                    sky.apply {
-                        when (hour) {
-                            600 -> {
-                                setMorningSkyState(value)
-                                preferenceManager.setMorningSkyState(value)
-                            }
-                            1200 -> {
-                                setAfternoonSkyState(value)
-                                preferenceManager.setAfternoonSkyState(value)
-                            }
-                            1800 -> {
-                                setEveningSkyState(value)
-                                preferenceManager.setEveningSkyState(value)
-                            }
+    private suspend fun fetchWeatherData() = withContext(Dispatchers.IO) {
+        try {
+            val location = locationUtil.getLocation() ?: throw Exception("No location now.")
+            val lat = location.latitude.toInt()
+            val lng = location.longitude.toInt()
+            val weatherResponse = repository.getWeatherInformation(lat = lat, lng = lng)
+            val skyList = weatherResponse.skyList
+            Log.d("yoonseop", "skyList: $skyList")
+            for (sky in skyList) {
+                sky.apply {
+                    when (hour) {
+                        600 -> {
+                            setMorningSkyState(value)
+                            preferenceManager.setMorningSkyState(value)
+                        }
+                        1200 -> {
+                            setAfternoonSkyState(value)
+                            preferenceManager.setAfternoonSkyState(value)
+                        }
+                        1800 -> {
+                            setEveningSkyState(value)
+                            preferenceManager.setEveningSkyState(value)
                         }
                     }
                 }
-                val maxTemperature = weatherResponse.maxTemperature
-                val minTemperature = weatherResponse.minTemperature
-                preferenceManager.saveMaxTemperature(maxTemperature)
-                preferenceManager.saveMinTemperature(minTemperature)
-                setMaxTemperature(maxTemperature)
-                setMinTemperature(minTemperature)
-            } catch (e: Exception) {
-                Log.e("yoonseop", "${e.message}")
-            } finally {
-                setLoading(0b01)
             }
+            val maxTemperature = weatherResponse.maxTemperature
+            val minTemperature = weatherResponse.minTemperature
+            preferenceManager.saveMaxTemperature(maxTemperature)
+            preferenceManager.saveMinTemperature(minTemperature)
+            setMaxTemperature(maxTemperature)
+            setMinTemperature(minTemperature)
+        } catch (e: Exception) {
+            Log.e("yoonseop", "${e.message}")
+        } finally {
+            Log.d("yoonseop", "Weather fetched.")
         }
     }
 
@@ -236,14 +234,14 @@ class HomeViewModel(
     private fun setEveningSkyState(state: Int) = _eveningSkyState.postValue(state)
 
     fun initLocation() {
-        setLoading(0b00)
+        setLoading(true)
         val locationData = locationUtil.getCurrentLocationData()
         val doName = AddressConverter.convert("${locationData?.first()}")
         val siName = "${locationData?.last()}"
         val address = "$doName $siName"
         updateIfAddressNotSame(address, doName, siName)
         initViewModel()
-        setLoading(0b11)
+        setLoading(false)
     }
 
     private fun updateIfAddressNotSame(address: String, doName: String, siName: String): Boolean {
